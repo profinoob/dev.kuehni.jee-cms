@@ -1,0 +1,6 @@
+<pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces">
+    <url-mapping id="index">
+        <pattern value="/"/>
+        <view-id value="/index"/>
+    </url-mapping>
+</pretty-config>
