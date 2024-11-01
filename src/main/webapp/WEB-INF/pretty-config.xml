@@ -1,6 +1,18 @@
 <pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces">
     <url-mapping id="index">
         <pattern value="/"/>
-        <view-id value="/index"/>
+        <view-id value="/faces/index.xhtml"/>
+    </url-mapping>
+
+    <url-mapping id="createUser">
+        <pattern value="/users/new"/>
+        <view-id value="/faces/new-user.xhtml"/>
+        <action>#{userViewModel.load}</action>
+    </url-mapping>
+
+    <url-mapping id="viewUser">
+        <pattern value="/users/#{id: userViewModel.id}"/>
+        <view-id value="/faces/view-user.xhtml"/>
+        <action>#{userViewModel.load}</action>
     </url-mapping>
 </pretty-config>

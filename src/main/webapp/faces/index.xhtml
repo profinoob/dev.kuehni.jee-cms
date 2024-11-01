@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      lang="en">
+
+<f:view>
+    <h:head>
+        <title>Users</title>
+        <h:outputStylesheet library="css" name="styles.css"/>
+    </h:head>
+    <h:body>
+        <h1>Users</h1>
+
+        <p:linkButton outcome="pretty:createUser" styleClass="ui-button-raised" icon="pi pi-plus-circle">
+            Create
+        </p:linkButton>
+
+        <br/>
+
+        <p:dataTable var="user" value="#{userService.all}" rowKey="#{user.id}" selectionDisabled="true">
+            <p:column headerText="#" width="50">
+                <h:outputText value="#{user.id}"/>
+            </p:column>
+            <p:column headerText="Username">
+                <h:outputText value="#{user.username}"/>
+            </p:column>
+            <p:column headerText="Actions" width="100">
+                <p:linkButton outcome="pretty:viewUser" h:outputText="#{user.username}"
+                              styleClass="ui-button-outlined">
+                    <f:param name="id" value="#{user.id}"/>
+                    Open
+                </p:linkButton>
+            </p:column>
+        </p:dataTable>
+    </h:body>
+</f:view>
+</html>
