@@ -48,7 +48,7 @@ public class UserViewModel {
     /// Load a user from {@link UserRepository} by the id set by {@link #setId(Long)}.
     @Nullable
     public String load() {
-        var foundUser = Optional.ofNullable(id).flatMap(userRepository::findById);
+        final var foundUser = Optional.ofNullable(id).flatMap(userRepository::findById);
         user = foundUser.orElseGet(User::new);
         return foundUser.isPresent() ? null : "User not found";
     }

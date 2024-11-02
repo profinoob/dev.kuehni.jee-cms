@@ -15,6 +15,9 @@ public class AuthBean implements Serializable {
     @Nonnull
     private AuthState authState = new LoggedOut();
 
+    @Nullable
+    private String redirectToAfterLogin;
+
     @Nonnull
     public AuthState getAuthState() {
         return authState;
@@ -22,10 +25,21 @@ public class AuthBean implements Serializable {
 
     public void logIn(@Nonnull final String username) {
         authState = new LoggedIn(username);
+        this.redirectToAfterLogin = null;
     }
 
     public void logOut() {
         authState = new LoggedOut();
+        this.redirectToAfterLogin = null;
+    }
+
+    public void setRedirectToAfterLogin(@Nullable final String redirectToAfterLogin) {
+        this.redirectToAfterLogin = redirectToAfterLogin;
+    }
+
+    @Nullable
+    public String getRedirectToAfterLogin() {
+        return redirectToAfterLogin;
     }
 
 
