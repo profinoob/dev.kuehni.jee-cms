@@ -10,7 +10,10 @@
         <pattern value="/login"/>
         <view-id value="/faces/login.xhtml"/>
     </url-mapping>
-
+    <url-mapping id="register">
+        <pattern value="/register"/>
+        <view-id value="/faces/register.xhtml"/>
+    </url-mapping>
     <url-mapping id="logout">
         <pattern value="/logout"/>
         <view-id value="/faces/logged-out.xhtml"/>

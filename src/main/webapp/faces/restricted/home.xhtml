@@ -13,6 +13,11 @@
     <h:body>
         <h1>Users</h1>
 
+        Hello, <h:outputText value="#{authBean.authState.loggedInUsername}"/>!
+        <p:link outcome="pretty:logout">Logout</p:link>
+        <br/>
+        <br/>
+
         <p:linkButton outcome="pretty:createUser" styleClass="ui-button-raised" icon="pi pi-plus-circle">
             Create
         </p:linkButton>

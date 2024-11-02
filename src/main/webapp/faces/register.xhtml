@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      lang="en">
+<f:view>
+    <h:head>
+        <title>Login</title>
+        <h:outputStylesheet library="css" name="styles.css"/>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:outputLabel for="username" value="Username:"/>
+            <br/>
+            <p:inputText autocomplete="username" id="username" value="#{registerViewModel.username}" required="true"
+                         label="Username" validator="#{registerViewModel.validateUsername}">
+                <f:validateLength minimum="2"/>
+            </p:inputText>
+            <p:message for="username" display="icon"/>
+            <br/>
+            <br/>
+
+            <p:outputLabel for="new-password" value="Password:"/>
+            <br/>
+            <p:password autocomplete="new-password" type="password" id="new-password"
+                        value="#{registerViewModel.newPassword}" required="true" label="Password">
+                <f:validateLength minimum="8"/>
+            </p:password>
+            <p:message for="new-password" display="icon"/>
+            <br/>
+            <br/>
+
+            <p:outputLabel for="repeat-password" value="Repeat Password:"/>
+            <br/>
+            <p:password autocomplete="new-password" id="repeat-password" value="#{registerViewModel.repeatPassword}"
+                        required="true" label="Repeat Password" validator="#{registerViewModel.validateRepeatPassword}">
+                <f:attribute name="compareTo" value="new-password"/>
+            </p:password>
+            <p:message for="repeat-password" display="icon"/>
+            <br/>
+            <br/>
+
+            <p:commandButton value="Register" update="@form messages" actionListener="#{registerViewModel.register}"
+                             icon="pi pi-user-plus"/>
+            <br/>
+            <br/>
+            Already have an account? <p:link outcome="pretty:login">Login</p:link> instead.
+
+            <p:messages/>
+        </h:form>
+    </h:body>
+</f:view>
+</html>

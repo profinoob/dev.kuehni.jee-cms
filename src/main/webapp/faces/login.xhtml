@@ -13,23 +13,25 @@
         <h:form>
             <p:outputLabel for="username" value="Username:"/>
             <br/>
-
             <p:inputText autocomplete="username" id="username" value="#{loginViewModel.username}" required="true"
                          label="Username"/>
             <p:message for="username" display="icon"/>
             <br/>
+            <br/>
 
             <p:outputLabel for="password" value="Password:"/>
             <br/>
-
-            <p:inputText autocomplete="current-password" type="password" id="password"
-                         value="#{loginViewModel.password}" required="true" label="Password"/>
+            <p:password autocomplete="current-password" id="password"
+                        value="#{loginViewModel.password}" required="true" label="Password"/>
             <p:message for="password" display="icon"/>
             <br/>
             <br/>
 
             <p:commandButton value="Log in" update="@form messages" actionListener="#{loginViewModel.login}"
                              icon="pi pi-sign-in"/>
+            <br/>
+            <br/>
+            Don't have an account yet? <p:link outcome="pretty:register">Register</p:link> a new one.
 
             <p:messages/>
         </h:form>

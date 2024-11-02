@@ -4,7 +4,9 @@ import dev.kuehni.jeecms.util.data.CrudRepository;
 import jakarta.annotation.Nonnull;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @ApplicationScoped
@@ -15,15 +17,26 @@ public class IdentityRepository extends CrudRepository<Identity, Long> {
     }
 
     @Nonnull
-    public Optional<Identity> findByUsername(final String username) {
+    private TypedQuery<Identity> queryByUsername(@Nonnull final String username) {
+        return getEntityManager()
+                .createQuery("select u from Identity u where u.username = :username", Identity.class)
+                .setParameter("username", Objects.requireNonNull(username, "username"));
+    }
+
+
+    @Nonnull
+    public Optional<Identity> findByUsername(@Nonnull final String username) {
         try {
-            final var identity = getEntityManager()
-                    .createQuery("select u from Identity u where u.username = :username", Identity.class)
-                    .setParameter("username", username)
-                    .getSingleResult();
+            final var identity = queryByUsername(username).getSingleResult();
             return Optional.of(identity);
         } catch (final NoResultException ex) {
             return Optional.empty();
         }
+    }
+
+    public boolean existsByUsername(@Nonnull final String username) {
+        return !queryByUsername(username)
+                .setMaxResults(1)
+                .getResultList().isEmpty();
     }
 }
