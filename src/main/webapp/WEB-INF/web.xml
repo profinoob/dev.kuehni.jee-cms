@@ -5,15 +5,19 @@
          version="6.0">
 
     <servlet>
-        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-name>FacesServlet</servlet-name>
         <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-name>FacesServlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>faces/index.xhtml</welcome-file>
+    </welcome-file-list>
 
     <context-param>
         <param-name>jakarta.faces.AUTOMATIC_EXTENSIONLESS_MAPPING</param-name>
@@ -23,4 +27,47 @@
         <param-name>primefaces.THEME</param-name>
         <param-value>arya</param-value>
     </context-param>
+
+    <filter>
+        <filter-name>Index RedirectIfLoggedInFilter</filter-name>
+        <filter-class>dev.kuehni.jeecms.filters.RedirectIfLoggedInFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>Index RedirectIfLoggedInFilter</filter-name>
+        <url-pattern>/</url-pattern>
+    </filter-mapping>
+
+    <!-- Security -->
+    <security-role>
+        <role-name>user</role-name>
+    </security-role>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>public</web-resource-name>
+            <url-pattern>/</url-pattern>
+            <url-pattern>/faces/index.xhtml</url-pattern>
+            <url-pattern>/faces/login.xhtml</url-pattern>
+            <url-pattern>/faces/login-error.xhtml</url-pattern>
+        </web-resource-collection>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>restricted</web-resource-name>
+            <url-pattern>/app/*</url-pattern>
+            <url-pattern>/faces/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>user</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <form-login-config>
+            <form-login-page>/faces/login.xhtml</form-login-page>
+            <form-error-page>/faces/login-error.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
 </web-app>
