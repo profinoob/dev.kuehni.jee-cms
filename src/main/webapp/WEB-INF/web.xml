@@ -5,13 +5,13 @@
          version="6.0">
 
     <servlet>
-        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-name>FacesServlet</servlet-name>
         <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-name>FacesServlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
 
@@ -23,4 +23,14 @@
         <param-name>primefaces.THEME</param-name>
         <param-value>arya</param-value>
     </context-param>
+
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>dev.kuehni.jeecms.auth.AuthFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>/app/*</url-pattern>
+        <url-pattern>/faces/restricted/*</url-pattern>
+    </filter-mapping>
 </web-app>

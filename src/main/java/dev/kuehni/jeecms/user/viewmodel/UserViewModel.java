@@ -66,6 +66,6 @@ public class UserViewModel {
         if (id != null) {
             userRepository.delete(id);
         }
-        prettyFacesRedirector.redirect("pretty:index");
+        prettyFacesRedirector.redirect("pretty:home");
     }
 }

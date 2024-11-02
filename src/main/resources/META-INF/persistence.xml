@@ -8,12 +8,12 @@
         <properties>
             <property name="jakarta.persistence.provider" value="org.eclipse.persistence.jpa.PersistenceProvider"/>
 
-            <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
             <property name="eclipselink.logging.level" value="INFO"/>
             <property name="eclipselink.logging.level.sql" value="INFO"/> <!-- Logging of generated SQL -->
             <property name="eclipselink.logging.parameters" value="true"/>
 
             <!-- DO NOT USE IN PROD -->
+            <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
             <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
         </properties>
     </persistence-unit>

@@ -1,18 +1,36 @@
 <pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces">
-    <url-mapping id="index">
+    <rewrite match="/*" trailingSlash="remove"/>
+
+    <url-mapping>
         <pattern value="/"/>
         <view-id value="/faces/index.xhtml"/>
     </url-mapping>
 
+    <url-mapping id="login">
+        <pattern value="/login"/>
+        <view-id value="/faces/login.xhtml"/>
+    </url-mapping>
+
+    <url-mapping id="logout">
+        <pattern value="/logout"/>
+        <view-id value="/faces/logged-out.xhtml"/>
+        <action>#{authBean.logOut}</action>
+    </url-mapping>
+
+    <url-mapping id="home">
+        <pattern value="/app"/>
+        <view-id value="/faces/restricted/home.xhtml"/>
+    </url-mapping>
+
     <url-mapping id="createUser">
-        <pattern value="/users/new"/>
-        <view-id value="/faces/new-user.xhtml"/>
+        <pattern value="/app/users/new"/>
+        <view-id value="/faces/restricted/new-user.xhtml"/>
         <action>#{userViewModel.load}</action>
     </url-mapping>
 
     <url-mapping id="viewUser">
-        <pattern value="/users/#{id: userViewModel.id}"/>
-        <view-id value="/faces/view-user.xhtml"/>
+        <pattern value="/app/users/#{id: userViewModel.id}"/>
+        <view-id value="/faces/restricted/view-user.xhtml"/>
         <action>#{userViewModel.load}</action>
     </url-mapping>
 </pretty-config>
