@@ -1,8 +1,8 @@
-package dev.kuehni.jeecms.viewmodel;
+package dev.kuehni.jeecms.register.viewmodel;
 
 import dev.kuehni.jeecms.auth.Authenticator;
 import dev.kuehni.jeecms.auth.IdentityService;
-import dev.kuehni.jeecms.faces.FacesUtils;
+import dev.kuehni.jeecms.util.faces.FacesUtils;
 import dev.kuehni.jeecms.util.redirect.PrettyFacesRedirector;
 import jakarta.annotation.Nonnull;
 import jakarta.enterprise.context.RequestScoped;

@@ -1,19 +1,15 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       lang="en">
 
-<f:view>
-    <h:head>
-        <title>Hello</title>
-        <h:outputStylesheet library="css" name="styles.css"/>
-    </h:head>
-    <h:body>
-        <h1>Hello</h1>
+<ui:composition template="/faces/template.xhtml">
+    <ui:define name="title">Hello</ui:define>
+    <ui:define name="header">Hello</ui:define>
 
+    <ui:define name="content">
         Please <p:link outcome="pretty:login" value="log in"/>.
-    </h:body>
-</f:view>
+    </ui:define>
+</ui:composition>
 </html>

@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       lang="en">
-<f:view>
-    <h:head>
-        <title>Logged-out</title>
-        <meta http-equiv="refresh" content="2;url=#{facesContext.externalContext.applicationContextPath}"/>
-        <h:outputStylesheet library="css" name="styles.css"/>
-    </h:head>
-    <h:body>
-        <h1>Goodbye!</h1>
+
+<ui:composition template="/faces/template.xhtml">
+    <ui:define name="additionalHeadElements">
+        <meta http-equiv="refresh" content="2;#{facesContext.externalContext.applicationContextPath}"/>
+    </ui:define>
+    <ui:define name="title">Logged-out</ui:define>
+    <ui:define name="header">Goodbye!</ui:define>
+
+    <ui:define name="content">
         You will be redirected in a couple seconds.<br/>
         Click <p:link href="#{facesContext.externalContext.applicationContextPath}">here</p:link> if that doesn't work.
-    </h:body>
-</f:view>
+    </ui:define>
+</ui:composition>
 </html>

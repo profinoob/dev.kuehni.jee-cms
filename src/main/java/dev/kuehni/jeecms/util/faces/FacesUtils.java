@@ -1,4 +1,4 @@
-package dev.kuehni.jeecms.faces;
+package dev.kuehni.jeecms.util.faces;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
