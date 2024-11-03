@@ -1,4 +1,4 @@
-package dev.kuehni.jeecms.page.data;
+package dev.kuehni.jeecms.model.page;
 
 import dev.kuehni.jeecms.util.data.CrudRepository;
 import jakarta.enterprise.context.ApplicationScoped;

@@ -1,7 +1,7 @@
-package dev.kuehni.jeecms.login.viewmodel;
+package dev.kuehni.jeecms.viewmodel;
 
-import dev.kuehni.jeecms.auth.AuthBean;
-import dev.kuehni.jeecms.auth.Authenticator;
+import dev.kuehni.jeecms.service.auth.AuthBean;
+import dev.kuehni.jeecms.service.auth.AuthService;
 import dev.kuehni.jeecms.util.redirect.PrettyFacesRedirector;
 import jakarta.annotation.Nonnull;
 import jakarta.enterprise.context.RequestScoped;
@@ -23,8 +23,7 @@ public class LoginViewModel {
     @Inject
     private PrettyFacesRedirector prettyFacesRedirector;
     @Inject
-    private Authenticator authenticator;
-    @Named
+    private AuthService authService;
     @Inject
     private AuthBean authBean;
 
@@ -51,7 +50,7 @@ public class LoginViewModel {
         final var facesContext = FacesContext.getCurrentInstance();
 
         final var redirect = authBean.getRedirectToAfterLogin();
-        final var authResult = authenticator.authenticate(username, password);
+        final var authResult = authService.authenticate(username, password);
         switch (authResult) {
             case FAILURE -> facesContext.addMessage(
                     null,

@@ -1,5 +1,6 @@
-package dev.kuehni.jeecms.auth;
+package dev.kuehni.jeecms.config.filter;
 
+import dev.kuehni.jeecms.service.auth.AuthBean;
 import jakarta.inject.Inject;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package dev.kuehni.jeecms.page.data;
+package dev.kuehni.jeecms.model.page;
 
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.Column;

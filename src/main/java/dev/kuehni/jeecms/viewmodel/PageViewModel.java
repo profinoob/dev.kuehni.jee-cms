@@ -1,7 +1,7 @@
-package dev.kuehni.jeecms.page.viewmodel;
+package dev.kuehni.jeecms.viewmodel;
 
-import dev.kuehni.jeecms.page.data.Page;
-import dev.kuehni.jeecms.page.data.PageRepository;
+import dev.kuehni.jeecms.model.page.Page;
+import dev.kuehni.jeecms.model.page.PageRepository;
 import dev.kuehni.jeecms.util.redirect.PrettyFacesRedirector;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;

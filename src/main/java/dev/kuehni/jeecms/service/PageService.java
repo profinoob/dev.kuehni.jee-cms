@@ -1,7 +1,7 @@
-package dev.kuehni.jeecms.page;
+package dev.kuehni.jeecms.service;
 
-import dev.kuehni.jeecms.page.data.Page;
-import dev.kuehni.jeecms.page.data.PageRepository;
+import dev.kuehni.jeecms.model.page.Page;
+import dev.kuehni.jeecms.model.page.PageRepository;
 import jakarta.annotation.Nonnull;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

@@ -1,4 +1,4 @@
-package dev.kuehni.jeecms.auth.data;
+package dev.kuehni.jeecms.model.identity;
 
 import jakarta.persistence.*;
 

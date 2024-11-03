@@ -1,4 +1,4 @@
-package dev.kuehni.jeecms.auth.crypto;
+package dev.kuehni.jeecms.service.crypto;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.PostConstruct;
@@ -9,7 +9,7 @@ import jakarta.security.enterprise.identitystore.Pbkdf2PasswordHash;
 import java.util.HashMap;
 
 @ApplicationScoped
-public class PasswordHasher {
+public class PasswordService {
     @Inject
     private Pbkdf2PasswordHash hasher;
 

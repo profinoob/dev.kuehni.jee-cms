@@ -1,4 +1,4 @@
-package dev.kuehni.jeecms.auth;
+package dev.kuehni.jeecms.service.auth;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;

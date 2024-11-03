@@ -1,8 +1,8 @@
-package dev.kuehni.jeecms.auth;
+package dev.kuehni.jeecms.service;
 
-import dev.kuehni.jeecms.auth.crypto.PasswordHasher;
-import dev.kuehni.jeecms.auth.data.Identity;
-import dev.kuehni.jeecms.auth.data.IdentityRepository;
+import dev.kuehni.jeecms.service.crypto.PasswordService;
+import dev.kuehni.jeecms.model.identity.Identity;
+import dev.kuehni.jeecms.model.identity.IdentityRepository;
 import jakarta.annotation.Nonnull;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -12,7 +12,7 @@ public class IdentityService {
     @Inject
     private IdentityRepository identityRepository;
     @Inject
-    private PasswordHasher passwordHasher;
+    private PasswordService passwordService;
 
     public boolean isUsernameTaken(@Nonnull final String username) {
         return identityRepository.existsByUsername(username);
@@ -21,7 +21,7 @@ public class IdentityService {
     public void register(@Nonnull final String username, @Nonnull final String password) {
         final var identity = new Identity();
         identity.setUsername(username);
-        identity.setPasswordHash(passwordHasher.hashPassword(password));
+        identity.setPasswordHash(passwordService.hashPassword(password));
         identityRepository.insert(identity);
     }
 }

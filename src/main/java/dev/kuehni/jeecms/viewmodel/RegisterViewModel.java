@@ -1,7 +1,7 @@
-package dev.kuehni.jeecms.register.viewmodel;
+package dev.kuehni.jeecms.viewmodel;
 
-import dev.kuehni.jeecms.auth.Authenticator;
-import dev.kuehni.jeecms.auth.IdentityService;
+import dev.kuehni.jeecms.service.auth.AuthService;
+import dev.kuehni.jeecms.service.IdentityService;
 import dev.kuehni.jeecms.util.faces.FacesUtils;
 import dev.kuehni.jeecms.util.redirect.PrettyFacesRedirector;
 import jakarta.annotation.Nonnull;
@@ -31,7 +31,7 @@ public class RegisterViewModel {
     @Inject
     private PrettyFacesRedirector prettyFacesRedirector;
     @Inject
-    private Authenticator authenticator;
+    private AuthService authService;
 
     @Nonnull
     public String getUsername() {
@@ -63,7 +63,7 @@ public class RegisterViewModel {
     public void register() {
         final String password = getNewPassword();
         identityService.register(getUsername(), password);
-        authenticator.authenticate(username, password);
+        authService.authenticate(username, password);
         prettyFacesRedirector.redirect("pretty:home");
     }
 

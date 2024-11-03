@@ -1,4 +1,4 @@
-package dev.kuehni.jeecms.auth.data;
+package dev.kuehni.jeecms.model.identity;
 
 import dev.kuehni.jeecms.util.data.CrudRepository;
 import jakarta.annotation.Nonnull;
