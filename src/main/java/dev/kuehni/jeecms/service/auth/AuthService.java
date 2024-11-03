@@ -1,7 +1,7 @@
 package dev.kuehni.jeecms.service.auth;
 
-import dev.kuehni.jeecms.service.crypto.PasswordService;
 import dev.kuehni.jeecms.model.identity.IdentityRepository;
+import dev.kuehni.jeecms.service.crypto.PasswordService;
 import jakarta.annotation.Nonnull;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -21,7 +21,7 @@ public class AuthService {
             if (!passwordService.verifyPassword(password, identity.getPasswordHash())) {
                 return AuthResult.FAILURE;
             }
-            authBean.logIn(username);
+            authBean.logIn(identity);
             return AuthResult.SUCCESS;
         }).orElse(AuthResult.FAILURE);
     }

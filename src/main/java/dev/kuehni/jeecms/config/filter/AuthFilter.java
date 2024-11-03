@@ -15,6 +15,7 @@ public class AuthFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
+        authBean.refresh();
         if (!authBean.getAuthState().isLoggedIn()) {
             final HttpServletRequest httpRequest = (HttpServletRequest) request;
             final HttpServletResponse httpResponse = (HttpServletResponse) response;
