@@ -29,6 +29,8 @@
             <p:inputText id="slug" value="#{pageViewModel.slug}" required="true" label="URL Slug">
                 <f:validateLength minimum="2"/>
             </p:inputText>
+            <p:commandButton icon="pi pi-sync" styleClass="ui-button-flat"
+                             actionListener="#{pageViewModel.generateSlug}" process="title @this" update="@form"/>
             <p:message for="slug"/>
             <br/>
             <br/>

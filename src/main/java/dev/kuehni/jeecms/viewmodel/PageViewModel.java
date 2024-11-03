@@ -3,6 +3,7 @@ package dev.kuehni.jeecms.viewmodel;
 import dev.kuehni.jeecms.model.page.Page;
 import dev.kuehni.jeecms.model.page.PageRepository;
 import dev.kuehni.jeecms.util.redirect.PrettyFacesRedirector;
+import dev.kuehni.jeecms.util.text.StringUtils;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.enterprise.context.RequestScoped;
@@ -43,7 +44,7 @@ public class PageViewModel {
         page.setSlug(slug);
     }
 
-    @Nullable
+    @Nonnull
     public String getTitle() {
         return page.getTitle();
     }
@@ -52,7 +53,7 @@ public class PageViewModel {
         page.setTitle(title);
     }
 
-    @Nullable
+    @Nonnull
     public String getContent() {
         return page.getContent();
     }
@@ -68,6 +69,16 @@ public class PageViewModel {
         final var foundPage = Optional.ofNullable(id).flatMap(pageRepository::findById);
         page = foundPage.orElseGet(Page::new);
         return foundPage.isPresent() ? null : "Page not found";
+    }
+
+    public void generateSlug() {
+        final var title = getTitle();
+        final var slug = StringUtils.stripAccents(title.toLowerCase())
+                .replaceAll("[^a-z0-9\\-]+", "-")
+                .replaceFirst("^-+", "")
+                .replaceFirst("-+$", "")
+                .replaceAll("-{2,}", "-");
+        setSlug(slug);
     }
 
     /// Create a new page with data set to this view model and redirect to the view page for the newly created page.

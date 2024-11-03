@@ -15,14 +15,14 @@ public class Page {
     private long id;
 
     @Nonnull
-    private String slug;
+    private String slug = "";
 
     @Nonnull
-    private String title;
+    private String title = "";
 
     @Nonnull
     @Column(length = 4096)
-    private String content;
+    private String content = "";
 
     public long getId() {
         return id;
