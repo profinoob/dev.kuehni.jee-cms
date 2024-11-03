@@ -1,10 +1,8 @@
 package dev.kuehni.jeecms.model.page;
 
 import jakarta.annotation.Nonnull;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
@@ -25,6 +23,11 @@ public class Page {
     @Nonnull
     @Column(length = 4096, nullable = false)
     private String content = "";
+
+    @JoinColumn(unique = true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Page parent;
+
 
     public long getId() {
         return id;
@@ -55,5 +58,15 @@ public class Page {
 
     public void setContent(@Nonnull String content) {
         this.content = Objects.requireNonNull(content, "content");
+    }
+
+    /** {@code null} means that {@code this} is the index page */
+    @Nullable
+    public Page getParent() {
+        return parent;
+    }
+
+    public void setParent(@Nullable Page parent) {
+        this.parent = parent;
     }
 }

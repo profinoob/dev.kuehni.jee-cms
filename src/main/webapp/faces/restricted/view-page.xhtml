@@ -10,7 +10,7 @@
     <ui:define name="headerIcon">
         <p:linkButton outcome="pretty:home" icon="pi pi-arrow-left" styleClass="ui-button-flat"/>
     </ui:define>
-    <ui:define name="header">Pages: view</ui:define>
+    <ui:define name="header">Page <h:outputText value="#{pageViewModel.path}"/></ui:define>
 
     <ui:define name="content">
         <h:outputText value="#{pageViewModel.title}"/>

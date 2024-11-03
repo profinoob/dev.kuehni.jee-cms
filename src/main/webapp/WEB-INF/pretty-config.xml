@@ -26,7 +26,7 @@
     </url-mapping>
 
     <url-mapping id="createPage">
-        <pattern value="/admin/pages/new"/>
+        <pattern value="/admin/pages/#{parentId: pageViewModel.parentId}/create"/>
         <view-id value="/faces/restricted/new-page.xhtml"/>
         <action>#{pageViewModel.load}</action>
     </url-mapping>

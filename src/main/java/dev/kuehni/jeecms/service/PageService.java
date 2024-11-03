@@ -16,7 +16,12 @@ public class PageService {
     private PageRepository pageRepository;
 
     @Nonnull
-    public List<Page> getAll() {
-        return pageRepository.findAll();
+    public Page getRoot() {
+        return pageRepository.findRoot();
+    }
+
+    @Nonnull
+    public List<Page> getChildrenOf(@Nonnull Page parent) {
+        return pageRepository.findChildren(parent);
     }
 }

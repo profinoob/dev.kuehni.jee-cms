@@ -1,27 +1,19 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
       lang="en">
 
 <ui:composition template="/faces/template.xhtml">
     <ui:define name="title">Pages</ui:define>
     <ui:define name="header">Pages</ui:define>
     <ui:define name="content">
-        <p:linkButton outcome="pretty:createPage" styleClass="ui-button-raised" icon="pi pi-plus-circle">
-            Create
-        </p:linkButton>
-        <br/>
-        <br/>
-
-        <p:dataTable var="page" value="#{pageService.all}" rowKey="#{page.id}" selectionDisabled="true">
-            <p:column headerText="#" width="50">
-                <h:outputText value="#{page.id}"/>
-            </p:column>
-            <p:column headerText="Title">
-                <p:link outcome="pretty:viewPage" styleClass="ui-button-outlined">
+        <p:treeTable id="page-tree" value="#{pageTreeViewModel.tree}" var="page"
+                     selection="#{pageTreeViewModel.selectedNode}" selectionMode="single">
+            <p:column headerText="Name">
+                <p:link outcome="pretty:viewPage">
                     <f:param name="id" value="#{page.id}"/>
                     <h:outputText value="#{page.title}"/>
                 </p:link>
@@ -29,7 +21,12 @@
             <p:column headerText="Slug" width="150">
                 <h:outputText value="#{page.slug}"/>
             </p:column>
-        </p:dataTable>
+            <p:column width="50">
+                <p:linkButton outcome="pretty:createPage" icon="pi pi-file-plus" styleClass="ui-button-flat">
+                    <f:param name="parentId" value="#{page.id}"/>
+                </p:linkButton>
+            </p:column>
+        </p:treeTable>
     </ui:define>
 </ui:composition>
 </html>

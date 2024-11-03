@@ -7,16 +7,21 @@ import dev.kuehni.jeecms.util.text.StringUtils;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletResponse;
 
-import java.util.Optional;
+import java.io.IOException;
+import java.util.ArrayList;
 
 @Named
 @RequestScoped
 public class PageViewModel {
     @Nullable
     private Long id;
+    @Nullable
+    private Long parentId;
 
     @Nonnull
     private Page page = new Page();
@@ -33,6 +38,15 @@ public class PageViewModel {
 
     public void setId(@Nullable Long id) {
         this.id = id;
+    }
+
+    @Nullable
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(@Nullable Long parentId) {
+        this.parentId = parentId;
     }
 
     @Nullable
@@ -63,12 +77,41 @@ public class PageViewModel {
     }
 
 
+    @Nonnull
+    public String getPath() {
+        if (page.getParent() == null)
+            return "/";
+
+        final var parts = new ArrayList<String>();
+        var current = page;
+        while (current != null) {
+            parts.add(current.getSlug());
+            current = current.getParent();
+        }
+        return String.join("/", parts.reversed());
+    }
+
+
     /// Load a page from {@link PageRepository} by the id set by {@link #setId(Long)}.
-    @Nullable
-    public String load() {
-        final var foundPage = Optional.ofNullable(id).flatMap(pageRepository::findById);
-        page = foundPage.orElseGet(Page::new);
-        return foundPage.isPresent() ? null : "Page not found";
+    public void load() {
+        if (id != null) {
+            pageRepository.findById(id).ifPresentOrElse(foundPage -> page = foundPage, () -> {
+                final var facesContext = FacesContext.getCurrentInstance();
+                final var response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+
+                try {
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Page with id " + id + " not found");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                facesContext.responseComplete(); // Stops further processing
+            });
+        } else {
+            page = new Page();
+            if (parentId != null) {
+                page.setParent(pageRepository.findById(parentId).orElse(null));
+            }
+        }
     }
 
     public void generateSlug() {
