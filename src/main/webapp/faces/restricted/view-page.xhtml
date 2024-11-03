@@ -6,20 +6,22 @@
       lang="en">
 
 <ui:composition template="/faces/template.xhtml">
-    <ui:define name="title">Users: view</ui:define>
+    <ui:define name="title">Pages: view</ui:define>
     <ui:define name="headerIcon">
         <p:linkButton outcome="pretty:home" icon="pi pi-arrow-left" styleClass="ui-button-flat"/>
     </ui:define>
-    <ui:define name="header">Users: view</ui:define>
+    <ui:define name="header">Pages: view</ui:define>
 
     <ui:define name="content">
-        Name: <h:outputText value="#{userViewModel.username}"/>
-
+        <h:outputText value="#{pageViewModel.title}"/>
         <br/>
+        <div style="white-space: pre-line">
+            <h:outputText value="#{pageViewModel.content}"/>
+        </div>
         <br/>
 
         <h:form>
-            <p:commandButton value="Delete" icon="pi pi-trash" actionListener="#{userViewModel.delete}"
+            <p:commandButton value="Delete" icon="pi pi-trash" actionListener="#{pageViewModel.delete}"
                              styleClass="ui-button-outlined ui-button-danger"/>
         </h:form>
     </ui:define>

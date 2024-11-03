@@ -21,19 +21,19 @@
     </url-mapping>
 
     <url-mapping id="home">
-        <pattern value="/app"/>
-        <view-id value="/faces/restricted/home.xhtml"/>
+        <pattern value="/admin/pages"/>
+        <view-id value="/faces/restricted/pages.xhtml"/>
     </url-mapping>
 
-    <url-mapping id="createUser">
-        <pattern value="/app/users/new"/>
-        <view-id value="/faces/restricted/new-user.xhtml"/>
-        <action>#{userViewModel.load}</action>
+    <url-mapping id="createPage">
+        <pattern value="/admin/pages/new"/>
+        <view-id value="/faces/restricted/new-page.xhtml"/>
+        <action>#{pageViewModel.load}</action>
     </url-mapping>
 
-    <url-mapping id="viewUser">
-        <pattern value="/app/users/#{id: userViewModel.id}"/>
-        <view-id value="/faces/restricted/view-user.xhtml"/>
-        <action>#{userViewModel.load}</action>
+    <url-mapping id="viewPage">
+        <pattern value="/admin/pages/#{id: pageViewModel.id}"/>
+        <view-id value="/faces/restricted/view-page.xhtml"/>
+        <action>#{pageViewModel.load}</action>
     </url-mapping>
 </pretty-config>
