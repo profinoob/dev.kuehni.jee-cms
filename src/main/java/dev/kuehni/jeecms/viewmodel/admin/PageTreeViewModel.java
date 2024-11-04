@@ -1,4 +1,4 @@
-package dev.kuehni.jeecms.viewmodel;
+package dev.kuehni.jeecms.viewmodel.admin;
 
 import dev.kuehni.jeecms.model.page.Page;
 import dev.kuehni.jeecms.service.PageService;

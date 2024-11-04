@@ -3,7 +3,15 @@
 
     <url-mapping>
         <pattern value="/"/>
-        <view-id value="/faces/index.xhtml"/>
+        <view-id value="/faces/page.xhtml"/>
+        <action>#{pageViewModel.loadRoot}</action>
+    </url-mapping>
+
+    <url-mapping>
+        <pattern value="/page"/>
+        <query-param name="id">#{pageViewModel.id}</query-param>
+        <view-id value="/faces/page.xhtml"/>
+        <action>#{pageViewModel.load}</action>
     </url-mapping>
 
     <url-mapping id="login">
@@ -26,14 +34,14 @@
     </url-mapping>
 
     <url-mapping id="createPage">
-        <pattern value="/admin/pages/#{parentId: pageViewModel.parentId}/create"/>
+        <pattern value="/admin/pages/#{parentId: adminPageViewModel.parentId}/create"/>
         <view-id value="/faces/restricted/new-page.xhtml"/>
-        <action>#{pageViewModel.load}</action>
+        <action>#{adminPageViewModel.load}</action>
     </url-mapping>
 
     <url-mapping id="viewPage">
-        <pattern value="/admin/pages/#{id: pageViewModel.id}"/>
+        <pattern value="/admin/pages/#{id: adminPageViewModel.id}"/>
         <view-id value="/faces/restricted/view-page.xhtml"/>
-        <action>#{pageViewModel.load}</action>
+        <action>#{adminPageViewModel.load}</action>
     </url-mapping>
 </pretty-config>

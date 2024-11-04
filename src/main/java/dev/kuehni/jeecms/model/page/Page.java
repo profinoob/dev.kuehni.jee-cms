@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(name = "uc_page_slug_per_parent", columnNames = {"parent_id", "slug"}))
 public class Page {
     @Id
     @GeneratedValue

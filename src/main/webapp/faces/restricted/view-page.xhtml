@@ -10,18 +10,18 @@
     <ui:define name="headerIcon">
         <p:linkButton outcome="pretty:home" icon="pi pi-arrow-left" styleClass="ui-button-flat"/>
     </ui:define>
-    <ui:define name="header">Page <h:outputText value="#{pageViewModel.path}"/></ui:define>
+    <ui:define name="header">Page <h:outputText value="#{adminPageViewModel.path}"/></ui:define>
 
     <ui:define name="content">
-        <h:outputText value="#{pageViewModel.title}"/>
+        <h:outputText value="#{adminPageViewModel.title}"/>
         <br/>
         <div style="white-space: pre-line">
-            <h:outputText value="#{pageViewModel.content}"/>
+            <h:outputText value="#{adminPageViewModel.content}"/>
         </div>
         <br/>
 
         <h:form>
-            <p:commandButton value="Delete" icon="pi pi-trash" actionListener="#{pageViewModel.delete}"
+            <p:commandButton value="Delete" icon="pi pi-trash" actionListener="#{adminPageViewModel.delete}"
                              styleClass="ui-button-outlined ui-button-danger"/>
         </h:form>
     </ui:define>

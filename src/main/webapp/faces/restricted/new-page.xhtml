@@ -17,7 +17,7 @@
         <h:form>
             <p:outputLabel for="title" value="Title:"/>
             <br/>
-            <p:inputText id="title" value="#{pageViewModel.title}" required="true" label="Title">
+            <p:inputText id="title" value="#{adminPageViewModel.title}" required="true" label="Title">
                 <f:validateLength minimum="2"/>
             </p:inputText>
             <p:message for="title"/>
@@ -26,25 +26,25 @@
 
             <p:outputLabel for="slug" value="URL Slug:"/>
             <br/>
-            <p:inputText id="slug" value="#{pageViewModel.slug}" required="true" label="URL Slug">
+            <p:inputText id="slug" value="#{adminPageViewModel.slug}" required="true" label="URL Slug">
                 <f:validateLength minimum="2"/>
             </p:inputText>
             <p:commandButton icon="pi pi-sync" styleClass="ui-button-flat"
-                             actionListener="#{pageViewModel.generateSlug}" process="title @this" update="@form"/>
+                             actionListener="#{adminPageViewModel.generateSlug}" process="title @this" update="@form"/>
             <p:message for="slug"/>
             <br/>
             <br/>
 
             <p:outputLabel for="content" value="Content:"/>
             <br/>
-            <p:inputTextarea id="content" value="#{pageViewModel.content}" required="true" label="Content">
+            <p:inputTextarea id="content" value="#{adminPageViewModel.content}" required="true" label="Content">
                 <f:validateLength minimum="2"/>
             </p:inputTextarea>
             <p:message for="content"/>
             <br/>
             <br/>
 
-            <p:commandButton value="Create" update="@form" actionListener="#{pageViewModel.create}"
+            <p:commandButton value="Create" update="@form" actionListener="#{adminPageViewModel.create}"
                              icon="pi pi-save"/>
         </h:form>
     </ui:define>

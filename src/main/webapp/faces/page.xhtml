@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      lang="en">
+
+<ui:composition template="/faces/template.xhtml">
+    <ui:define name="title"><h:outputText value="#{pageViewModel.title}"/></ui:define>
+    <ui:define name="header"><h:outputText value="#{pageViewModel.title}"/></ui:define>
+
+    <ui:define name="content">
+        <div style="white-space: pre-line;">
+            <h:outputText value="#{pageViewModel.content}"/>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>
