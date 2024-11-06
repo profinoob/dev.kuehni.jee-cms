@@ -20,7 +20,8 @@ public class AuthFilter implements Filter {
             final HttpServletRequest httpRequest = (HttpServletRequest) request;
             final HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-            final String redirect = httpRequest.getRequestURI() + "?" + httpRequest.getQueryString();
+            final String queryString = httpRequest.getQueryString();
+            final String redirect = httpRequest.getRequestURI() + (queryString != null ? "?" + queryString : "");
             authBean.setRedirectToAfterLogin(redirect);
             httpResponse.sendRedirect(request.getServletContext().getContextPath() + "/login");
             return;

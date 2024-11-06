@@ -25,9 +25,10 @@ public class PageRepository extends CrudRepository<Page, Long> {
         try {
             queryRootPage().getSingleResult();
         } catch (NoResultException ex) {
-            final Page indexPage = new Page();
-            indexPage.setTitle("Homepage");
-            insert(indexPage);
+            final Page rootPage = new Page();
+            rootPage.setTitle("Homepage");
+            rootPage.setSlug("-");
+            insert(rootPage);
         }
     }
 

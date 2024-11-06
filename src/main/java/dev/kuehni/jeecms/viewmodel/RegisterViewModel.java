@@ -1,7 +1,8 @@
 package dev.kuehni.jeecms.viewmodel;
 
-import dev.kuehni.jeecms.service.auth.AuthService;
 import dev.kuehni.jeecms.service.IdentityService;
+import dev.kuehni.jeecms.service.auth.AuthBean;
+import dev.kuehni.jeecms.service.auth.AuthService;
 import dev.kuehni.jeecms.util.faces.FacesUtils;
 import dev.kuehni.jeecms.util.redirect.PrettyFacesRedirector;
 import jakarta.annotation.Nonnull;
@@ -14,6 +15,7 @@ import jakarta.faces.validator.ValidatorException;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
+import java.io.IOException;
 import java.util.NoSuchElementException;
 
 @Named
@@ -32,6 +34,9 @@ public class RegisterViewModel {
     private PrettyFacesRedirector prettyFacesRedirector;
     @Inject
     private AuthService authService;
+    @Named
+    @Inject
+    private AuthBean authBean;
 
     @Nonnull
     public String getUsername() {
@@ -64,7 +69,17 @@ public class RegisterViewModel {
         final String password = getNewPassword();
         identityService.register(getUsername(), password);
         authService.authenticate(username, password);
-        prettyFacesRedirector.redirect("pretty:home");
+
+        final var redirect = authBean.getRedirectToAfterLogin();
+        if (redirect != null) {
+            try {
+                FacesContext.getCurrentInstance().getExternalContext().redirect(redirect);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            prettyFacesRedirector.redirect("pretty:home");
+        }
     }
 
     public void validateUsername(FacesContext context, UIComponent toValidate, String username) {

@@ -35,13 +35,13 @@
 
     <url-mapping id="createPage">
         <pattern value="/admin/pages/#{parentId: adminPageViewModel.parentId}/create"/>
-        <view-id value="/faces/restricted/new-page.xhtml"/>
+        <view-id value="/faces/restricted/edit-page.xhtml"/>
         <action>#{adminPageViewModel.load}</action>
     </url-mapping>
 
     <url-mapping id="viewPage">
         <pattern value="/admin/pages/#{id: adminPageViewModel.id}"/>
-        <view-id value="/faces/restricted/view-page.xhtml"/>
+        <view-id value="/faces/restricted/edit-page.xhtml"/>
         <action>#{adminPageViewModel.load}</action>
     </url-mapping>
 </pretty-config>

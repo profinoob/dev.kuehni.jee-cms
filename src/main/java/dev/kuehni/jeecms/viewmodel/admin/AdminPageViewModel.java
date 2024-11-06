@@ -7,13 +7,18 @@ import dev.kuehni.jeecms.util.text.StringUtils;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.component.UIComponent;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.validator.ValidatorException;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Named
 @RequestScoped
@@ -76,26 +81,32 @@ public class AdminPageViewModel {
         page.setContent(content);
     }
 
+    public boolean isNew() {
+        return id == null;
+    }
+
 
     @Nonnull
     public String getPath() {
-        if (page.getParent() == null)
-            return "/";
-
         final var parts = new ArrayList<String>();
         var current = page;
-        while (current != null) {
+        while (true) {
+            final var parent = current.getParent();
+            if (parent == null) break;
             parts.add(current.getSlug());
-            current = current.getParent();
+            current = parent;
         }
-        return String.join("/", parts.reversed());
+        return "/" + String.join("/", parts.reversed());
     }
 
 
     /// Load a page from {@link PageRepository} by the id set by {@link #setId(Long)}.
     public void load() {
         if (id != null) {
-            pageRepository.findById(id).ifPresentOrElse(foundPage -> page = foundPage, () -> {
+            pageRepository.findById(id).ifPresentOrElse(foundPage -> {
+                page = foundPage;
+                parentId = Optional.ofNullable(foundPage.getParent()).map(Page::getId).orElse(null);
+            }, () -> {
                 final var facesContext = FacesContext.getCurrentInstance();
                 final var response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
 
@@ -124,12 +135,33 @@ public class AdminPageViewModel {
         setSlug(slug);
     }
 
-    /// Create a new page with data set to this view model and redirect to the view page for the newly created page.
+
+    public void validateSlug(FacesContext context, UIComponent toValidate, String slug) {
+        if (Pattern.compile("[^a-z0-9\\-]").matcher(slug).find()) {
+            final var message = new FacesMessage(
+                    FacesMessage.SEVERITY_ERROR,
+                    "Only lowercase letters (a-z), numbers (0-9) and dashes (-) are allowed",
+                    null
+            );
+            throw new ValidatorException(message);
+        }
+    }
+
+
+    /// Create a new page with data set to this view model.
     public void create() {
         pageRepository.insert(page);
         id = page.getId();
-
+        FacesContext.getCurrentInstance()
+                .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Page create", null));
         prettyFacesRedirector.redirect("pretty:viewPage", id);
+    }
+
+    /// Update the page with data set to this view model.
+    public void update() {
+        pageRepository.update(page);
+        FacesContext.getCurrentInstance()
+                .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Page saved", null));
     }
 
     /// Delete this page and navigate to the page list.

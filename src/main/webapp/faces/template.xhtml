@@ -10,6 +10,10 @@
     <h:head>
         <title><ui:insert name="title"/></title>
         <h:outputStylesheet library="css" name="styles.css"/>
+        <h:outputScript library="js" name="markdown-loader.cjs"/>
+        <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"
+                integrity="sha256-ZAdXaZOlqhMD6vn++5Xlz8HAyAZFvTcX22cXJ+a1W5E=" crossorigin="anonymous"/>
+
         <ui:insert name="additionalHeadElements"/>
     </h:head>
     <h:body>
@@ -19,6 +23,9 @@
             <ui:fragment rendered="#{authBean.authState.loggedIn}">
                 <h:outputText value="#{authBean.authState.loggedInUsername}"/>
                 <p:linkButton outcome="pretty:logout" styleClass="ui-button-flat" icon="pi pi-sign-out"/>
+            </ui:fragment>
+            <ui:fragment rendered="#{!authBean.authState.loggedIn}">
+                <p:linkButton outcome="pretty:login" styleClass="ui-button-flat" icon="pi pi-sign-in"/>
             </ui:fragment>
         </header>
         <main>
