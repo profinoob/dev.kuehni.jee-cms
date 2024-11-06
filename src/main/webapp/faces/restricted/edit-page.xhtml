@@ -7,34 +7,36 @@
 
 <ui:composition template="/faces/template.xhtml">
     <ui:define name="title">
-        <ui:fragment rendered="#{adminPageViewModel.new}">Create Page</ui:fragment>
-        <ui:fragment rendered="#{!adminPageViewModel.new}">Edit Page</ui:fragment>
+        <ui:fragment rendered="#{editPageViewModel.new}">Create Page</ui:fragment>
+        <ui:fragment rendered="#{!editPageViewModel.new}">Edit Page</ui:fragment>
     </ui:define>
     <ui:define name="headerIcon">
         <p:linkButton outcome="pretty:home" icon="pi pi-arrow-left" styleClass="ui-button-flat"/>
     </ui:define>
     <ui:define name="header">
-        <ui:fragment rendered="#{adminPageViewModel.new}">Create Page</ui:fragment>
-        <ui:fragment rendered="#{!adminPageViewModel.new}">Edit Page: <h:outputText value="#{adminPageViewModel.path}"/></ui:fragment>
+        <ui:fragment rendered="#{editPageViewModel.new}">Create Page in <h:outputText
+                value="#{editPageViewModel.path}"/></ui:fragment>
+        <ui:fragment rendered="#{!editPageViewModel.new}">Edit Page: <h:outputText
+                value="#{editPageViewModel.path}"/></ui:fragment>
     </ui:define>
 
     <ui:define name="content">
         <h:form>
             <p:outputLabel for="title" value="Title:"/>
             <br/>
-            <p:inputText id="title" value="#{adminPageViewModel.title}" required="true" label="Title"/>
+            <p:inputText id="title" value="#{editPageViewModel.title}" required="true" label="Title"/>
             <p:message for="title"/>
             <br/>
             <br/>
 
             <p:outputLabel for="slug" value="URL Slug:"/>
             <br/>
-            <p:inputText id="slug" value="#{adminPageViewModel.slug}" required="#{adminPageViewModel.parentId != null}"
-                         disabled="#{adminPageViewModel.parentId == null}" label="URL Slug"
-                         validator="#{adminPageViewModel.validateSlug}"/>
+            <p:inputText id="slug" value="#{editPageViewModel.slug}" required="#{editPageViewModel.parentId != null}"
+                         disabled="#{editPageViewModel.parentId == null}" label="URL Slug"
+                         validator="#{editPageViewModel.validateSlug}"/>
             <p:commandButton icon="pi pi-sync" styleClass="ui-button-flat"
-                             actionListener="#{adminPageViewModel.generateSlug}" process="title @this"
-                             update="title slug" rendered="#{adminPageViewModel.parentId != null}"/>
+                             actionListener="#{editPageViewModel.generateSlug}" process="title @this"
+                             update="title slug" rendered="#{editPageViewModel.parentId != null}"/>
             <p:message for="slug"/>
             <br/>
             <br/>
@@ -42,17 +44,17 @@
             <p:outputLabel for="content" value="Content:"/>
             <em>(<p:link href="https://github.github.com/gfm/" target="_blank">Markdown</p:link> is enabled)</em>
             <br/>
-            <p:inputTextarea id="content" value="#{adminPageViewModel.content}" required="true" label="Content"/>
+            <p:inputTextarea id="content" value="#{editPageViewModel.content}" required="true" label="Content"/>
             <p:message for="content"/>
             <br/>
             <br/>
 
-            <ui:fragment rendered="#{adminPageViewModel.new}">
-                <p:commandButton value="Create" update="@form" actionListener="#{adminPageViewModel.create}"
+            <ui:fragment rendered="#{editPageViewModel.new}">
+                <p:commandButton value="Create" update="@form" actionListener="#{editPageViewModel.create}"
                                  icon="pi pi-save"/>
             </ui:fragment>
-            <ui:fragment rendered="#{!adminPageViewModel.new}">
-                <p:commandButton value="Save" update="@form" actionListener="#{adminPageViewModel.update}"
+            <ui:fragment rendered="#{!editPageViewModel.new}">
+                <p:commandButton value="Save" update="@form" actionListener="#{editPageViewModel.update}"
                                  icon="pi pi-save"/>
             </ui:fragment>
             <br/>

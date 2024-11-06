@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 
 @Named
 @RequestScoped
-public class AdminPageViewModel {
+public class EditPageViewModel {
     @Nullable
     private Long id;
     @Nullable
