@@ -76,4 +76,15 @@ public class PageService {
         path.prepend(page.getSlug());
         prependPathOf(parent, path);
     }
+
+    public void deleteRecursively(@Nonnull Page page) {
+        Objects.requireNonNull(page, "page");
+
+        if (page.getParent() == null) {
+            return;
+        }
+
+        pageRepository.findChildren(page).forEach(this::deleteRecursively);
+        pageRepository.delete(page.getId());
+    }
 }

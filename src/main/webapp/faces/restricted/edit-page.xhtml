@@ -54,8 +54,18 @@
                                  icon="pi pi-save"/>
             </ui:fragment>
             <ui:fragment rendered="#{!editPageViewModel.new}">
-                <p:commandButton value="Save" update="@form" actionListener="#{editPageViewModel.update}"
-                                 icon="pi pi-save"/>
+                <div style="display: block flex; gap: .5em;">
+                    <p:commandButton value="Save" update="@form" actionListener="#{editPageViewModel.update}"
+                                     icon="pi pi-save"/>
+                    <ui:fragment rendered="#{editPageViewModel.parentId != null}">
+                        <p:commandButton value="Delete" actionListener="#{editPageViewModel.delete}" immediate="true"
+                                         icon="pi pi-trash" styleClass="ui-button-flat ui-button-danger">
+                            <p:confirm header="Delete Page" type="popup"
+                                       message="Are you sure you want to delete this page and all of its sub-pages?"
+                                       icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+                    </ui:fragment>
+                </div>
             </ui:fragment>
             <br/>
             <br/>

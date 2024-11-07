@@ -2,6 +2,7 @@ package dev.kuehni.jeecms.viewmodel.admin;
 
 import dev.kuehni.jeecms.model.page.Page;
 import dev.kuehni.jeecms.model.page.PageRepository;
+import dev.kuehni.jeecms.service.PageService;
 import dev.kuehni.jeecms.util.redirect.PrettyFacesRedirector;
 import dev.kuehni.jeecms.util.text.StringUtils;
 import jakarta.annotation.Nonnull;
@@ -35,6 +36,9 @@ public class EditPageViewModel {
     private PageRepository pageRepository;
     @Inject
     private PrettyFacesRedirector prettyFacesRedirector;
+    @Named
+    @Inject
+    private PageService pageService;
 
     @Nullable
     public Long getId() {
@@ -167,7 +171,7 @@ public class EditPageViewModel {
     /// Delete this page and navigate to the page list.
     public void delete() {
         if (id != null) {
-            pageRepository.delete(id);
+            pageService.deleteRecursively(page);
         }
         prettyFacesRedirector.redirect("pretty:adminPageList");
     }

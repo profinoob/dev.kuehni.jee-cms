@@ -42,6 +42,11 @@
         <main>
             <ui:insert name="content"><span style="font-family: monospace;">{Your content}</span></ui:insert>
         </main>
+
+        <p:confirmPopup global="true">
+            <p:commandButton value="No" type="button" styleClass="ui-confirm-popup-no ui-button-flat"/>
+            <p:commandButton value="Yes" type="button" styleClass="ui-confirm-popup-yes"/>
+        </p:confirmPopup>
     </h:body>
 </f:view>
 </html>
