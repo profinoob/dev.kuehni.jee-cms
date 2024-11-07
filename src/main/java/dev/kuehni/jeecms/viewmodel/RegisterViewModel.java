@@ -78,7 +78,7 @@ public class RegisterViewModel {
                 throw new RuntimeException(e);
             }
         } else {
-            prettyFacesRedirector.redirect("pretty:home");
+            prettyFacesRedirector.redirect("pretty:adminPageList");
         }
     }
 

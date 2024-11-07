@@ -1,7 +1,7 @@
 <pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces">
     <rewrite trailingSlash="remove"/>
 
-    <url-mapping>
+    <url-mapping id="home">
         <pattern value="/"/>
         <view-id value="/faces/page.xhtml"/>
         <action>#{pageViewModel.loadRoot}</action>
@@ -27,7 +27,7 @@
         <action>#{authBean.logOut}</action>
     </url-mapping>
 
-    <url-mapping id="home">
+    <url-mapping id="adminPageList">
         <pattern value="/admin/pages"/>
         <view-id value="/faces/restricted/pages.xhtml"/>
     </url-mapping>

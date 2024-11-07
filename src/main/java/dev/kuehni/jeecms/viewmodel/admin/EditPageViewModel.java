@@ -169,6 +169,6 @@ public class EditPageViewModel {
         if (id != null) {
             pageRepository.delete(id);
         }
-        prettyFacesRedirector.redirect("pretty:home");
+        prettyFacesRedirector.redirect("pretty:adminPageList");
     }
 }
