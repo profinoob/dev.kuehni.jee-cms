@@ -25,7 +25,6 @@ public class Page {
     @Column(length = 4096, nullable = false)
     private String content = "";
 
-    @JoinColumn(unique = true)
     @ManyToOne(fetch = FetchType.LAZY)
     private Page parent;
 
