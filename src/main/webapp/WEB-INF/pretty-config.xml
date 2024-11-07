@@ -1,5 +1,5 @@
 <pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces">
-    <rewrite match="/*" trailingSlash="remove"/>
+    <rewrite trailingSlash="remove"/>
 
     <url-mapping>
         <pattern value="/"/>
@@ -7,9 +7,8 @@
         <action>#{pageViewModel.loadRoot}</action>
     </url-mapping>
 
-    <url-mapping>
-        <pattern value="/page"/>
-        <query-param name="id">#{pageViewModel.id}</query-param>
+    <url-mapping id="page">
+        <pattern value="/page#{/.*/ path: pageViewModel.pathWithoutLeadingSlash}"/>
         <view-id value="/faces/page.xhtml"/>
         <action>#{pageViewModel.load}</action>
     </url-mapping>

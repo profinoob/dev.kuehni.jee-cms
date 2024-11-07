@@ -2,16 +2,37 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
       lang="en">
 
 <ui:composition template="/faces/template.xhtml">
     <ui:define name="title"><h:outputText value="#{pageViewModel.title}"/></ui:define>
+    <ui:define name="headerIcon">
+        <ui:fragment rendered="#{pageViewModel.parent != null}">
+            <p:linkButton outcome="pretty:page" icon="pi pi-arrow-left" styleClass="ui-button-flat">
+                <f:param name="path" value="#{pageService.getPathOf(pageViewModel.parent)}"/>
+            </p:linkButton>
+        </ui:fragment>
+    </ui:define>
     <ui:define name="header"><h:outputText value="#{pageViewModel.title}"/></ui:define>
 
     <ui:define name="content">
         <div class="cms-markdown">
             <h:outputText value="#{pageViewModel.content}"/>
         </div>
+
+        <hr/>
+
+        <ui:fragment rendered="#{pageViewModel.hasChildren()}">
+            Sub-Pages:<br/>
+            <ui:repeat value="#{pageViewModel.children}" var="childPage">
+                <p:link outcome="pretty:page">
+                    <f:param name="path" value="#{pageService.getPathOf(childPage)}"/>
+                    <h:outputText value="#{childPage.title}"/>
+                </p:link><br/>
+            </ui:repeat>
+        </ui:fragment>
     </ui:define>
 </ui:composition>
 </html>

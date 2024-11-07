@@ -3,7 +3,9 @@ package dev.kuehni.jeecms.viewmodel;
 import dev.kuehni.jeecms.model.page.Page;
 import dev.kuehni.jeecms.model.page.PageRepository;
 import dev.kuehni.jeecms.service.PageService;
+import dev.kuehni.jeecms.util.page.PagePath;
 import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
@@ -11,11 +13,12 @@ import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.List;
 
 @Named
 @RequestScoped
 public class PageViewModel {
-    private Long id;
+    private PagePath path;
 
     private Page page;
 
@@ -26,12 +29,12 @@ public class PageViewModel {
     private PageService pageService;
 
     public void load() {
-        pageRepository.findById(id).ifPresentOrElse(page -> this.page = page, () -> {
+        pageService.getAtPath(path).ifPresentOrElse(page -> this.page = page, () -> {
             final var facesContext = FacesContext.getCurrentInstance();
             final var response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
 
             try {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Page with id " + id + " not found");
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Page not found: " + path);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -41,11 +44,11 @@ public class PageViewModel {
 
     public void loadRoot() {
         page = pageService.getRoot();
-        id = page.getId();
+        path = PagePath.ROOT;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setPathWithoutLeadingSlash(@Nonnull String path) {
+        this.path = PagePath.parseWithoutLeadingSlash(path);
     }
 
     @Nonnull
@@ -56,5 +59,20 @@ public class PageViewModel {
     @Nonnull
     public String getContent() {
         return page.getContent();
+    }
+
+
+    @Nullable
+    public Page getParent() {
+        return page.getParent();
+    }
+
+    public boolean hasChildren() {
+        return pageRepository.existsChildrenOf(page);
+    }
+
+    @Nonnull
+    public List<Page> getChildren() {
+        return pageRepository.findChildren(page);
     }
 }
