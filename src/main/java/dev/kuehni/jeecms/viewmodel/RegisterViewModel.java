@@ -68,9 +68,9 @@ public class RegisterViewModel {
     public void register() {
         final String password = getNewPassword();
         identityService.register(getUsername(), password);
-        authService.authenticate(username, password);
 
         final var redirect = authBean.getRedirectToAfterLogin();
+        authService.authenticate(username, password);
         if (redirect != null) {
             try {
                 FacesContext.getCurrentInstance().getExternalContext().redirect(redirect);

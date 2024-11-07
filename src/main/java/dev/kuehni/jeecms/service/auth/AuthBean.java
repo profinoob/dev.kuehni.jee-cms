@@ -37,7 +37,7 @@ public class AuthBean implements Serializable {
                     .filter(loggedInUsername::equals)
                     .isPresent();
             if (!isStillValid) {
-                authState = new LoggedOut();
+                logOut();
             }
         }
     }

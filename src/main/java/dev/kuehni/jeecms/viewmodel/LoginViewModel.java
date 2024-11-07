@@ -49,6 +49,7 @@ public class LoginViewModel {
     public void login() {
         final var facesContext = FacesContext.getCurrentInstance();
 
+        final var redirect = authBean.getRedirectToAfterLogin();
         final var authResult = authService.authenticate(username, password);
         switch (authResult) {
             case FAILURE -> facesContext.addMessage(
@@ -56,7 +57,6 @@ public class LoginViewModel {
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid username or password", null)
             );
             case SUCCESS -> {
-                final var redirect = authBean.getRedirectToAfterLogin();
                 if (redirect != null) {
                     try {
                         facesContext.getExternalContext().redirect(redirect);
