@@ -30,11 +30,20 @@ public class PageTreeViewModel implements Serializable {
         tree = new DefaultTreeNode<>(new Page());
         var rootPageNode = new DefaultTreeNode<>(pageService.getRoot(), tree);
         addChildrenRecursive(rootPageNode);
+        expandToLevel(tree, 5);
     }
 
     private void addChildrenRecursive(@Nonnull TreeNode<Page> parentNode) {
         final var children = pageService.getChildrenOf(parentNode.getData());
         children.forEach(child -> addChildrenRecursive(new DefaultTreeNode<>(child, parentNode)));
+    }
+
+    private void expandToLevel(@Nonnull TreeNode<Page> parentNode, int level) {
+        if (level == 0) {
+            return;
+        }
+        parentNode.setExpanded(true);
+        parentNode.getChildren().forEach(child -> expandToLevel(child, level - 1));
     }
 
     @Nonnull
