@@ -2,12 +2,16 @@ package dev.kuehni.jeecms.viewmodel.admin;
 
 import dev.kuehni.jeecms.model.page.Page;
 import dev.kuehni.jeecms.service.PageService;
+import dev.kuehni.jeecms.service.auth.AuthBean;
+import dev.kuehni.jeecms.service.auth.PermissionService;
+import dev.kuehni.jeecms.util.faces.FacesUtils;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletResponse;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -24,9 +28,18 @@ public class PageTreeViewModel implements Serializable {
 
     @Inject
     private PageService pageService;
+    @Inject
+    private PermissionService permissionService;
+    @Named
+    @Inject
+    private AuthBean authBean;
 
     @PostConstruct
     public void init() {
+        if (!permissionService.isAllowedToEditPage()) {
+            FacesUtils.respondWithError(HttpServletResponse.SC_FORBIDDEN);
+        }
+
         tree = new DefaultTreeNode<>(new Page());
         var rootPageNode = new DefaultTreeNode<>(pageService.getRoot(), tree);
         addChildrenRecursive(rootPageNode);

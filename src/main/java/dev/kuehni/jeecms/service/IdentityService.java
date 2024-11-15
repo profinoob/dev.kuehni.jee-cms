@@ -2,6 +2,7 @@ package dev.kuehni.jeecms.service;
 
 import dev.kuehni.jeecms.model.identity.Identity;
 import dev.kuehni.jeecms.model.identity.IdentityRepository;
+import dev.kuehni.jeecms.model.identity.IdentityRole;
 import dev.kuehni.jeecms.service.crypto.PasswordService;
 import jakarta.annotation.Nonnull;
 import jakarta.enterprise.context.ApplicationScoped;
@@ -18,17 +19,21 @@ public class IdentityService {
         return identityRepository.existsByUsername(username);
     }
 
-    public void register(@Nonnull final String username, @Nonnull final String password) {
+    @Nonnull
+    public Identity register(@Nonnull final String username, @Nonnull final String password) {
         final var identity = new Identity();
         identity.setUsername(username);
         identity.setPasswordHash(passwordService.hashPassword(password));
         identityRepository.insert(identity);
+        return identity;
     }
 
     public void createAdmin() {
         if (isUsernameTaken("admin")) {
             throw new IllegalStateException("admin already exists");
         }
-        register("admin", "admin");
+        final var admin = register("admin", "admin");
+        admin.setRole(IdentityRole.ADMINISTRATOR);
+        identityRepository.update(admin);
     }
 }

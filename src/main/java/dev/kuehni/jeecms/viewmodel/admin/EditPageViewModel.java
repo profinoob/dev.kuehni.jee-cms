@@ -3,6 +3,8 @@ package dev.kuehni.jeecms.viewmodel.admin;
 import dev.kuehni.jeecms.model.page.Page;
 import dev.kuehni.jeecms.model.page.PageRepository;
 import dev.kuehni.jeecms.service.PageService;
+import dev.kuehni.jeecms.service.auth.PermissionService;
+import dev.kuehni.jeecms.util.faces.FacesUtils;
 import dev.kuehni.jeecms.util.redirect.PrettyFacesRedirector;
 import dev.kuehni.jeecms.util.text.StringUtils;
 import jakarta.annotation.Nonnull;
@@ -16,7 +18,6 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -39,6 +40,8 @@ public class EditPageViewModel {
     @Named
     @Inject
     private PageService pageService;
+    @Inject
+    private PermissionService permissionService;
 
     @Nullable
     public Long getId() {
@@ -106,27 +109,35 @@ public class EditPageViewModel {
 
     /// Load a page from {@link PageRepository} by the id set by {@link #setId(Long)}.
     public void load() {
-        if (id != null) {
-            pageRepository.findById(id).ifPresentOrElse(foundPage -> {
-                page = foundPage;
-                parentId = Optional.ofNullable(foundPage.getParent()).map(Page::getId).orElse(null);
-            }, () -> {
-                final var facesContext = FacesContext.getCurrentInstance();
-                final var response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
-
-                try {
-                    response.sendError(HttpServletResponse.SC_NOT_FOUND, "Page with id " + id + " not found");
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                facesContext.responseComplete(); // Stops further processing
-            });
-        } else {
-            page = new Page();
-            if (parentId != null) {
-                page.setParent(pageRepository.findById(parentId).orElse(null));
-            }
+        if (!permissionService.isAllowedToEditPage()) {
+            FacesUtils.respondWithError(HttpServletResponse.SC_FORBIDDEN);
         }
+
+        if (id != null) {
+            loadExisting(id);
+        } else {
+            loadNew();
+        }
+    }
+
+    private void loadNew() {
+        page = new Page();
+        if (parentId != null) {
+            page.setParent(pageRepository.findById(parentId).orElse(null));
+        }
+    }
+
+    private void loadExisting(long id) {
+        pageRepository.findById(id).ifPresentOrElse(
+                foundPage -> {
+                    page = foundPage;
+                    parentId = Optional.ofNullable(foundPage.getParent()).map(Page::getId).orElse(null);
+                },
+                () -> FacesUtils.respondWithError(
+                        HttpServletResponse.SC_NOT_FOUND,
+                        "Page with id " + id + " not found"
+                )
+        );
     }
 
     public void generateSlug() {

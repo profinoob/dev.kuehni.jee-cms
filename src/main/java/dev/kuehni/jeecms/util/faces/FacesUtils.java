@@ -3,7 +3,10 @@ package dev.kuehni.jeecms.util.faces;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
 import java.util.Objects;
 
 public class FacesUtils {
@@ -34,5 +37,25 @@ public class FacesUtils {
                 .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);
+    }
+
+    public static void respondWithError(int status, @Nullable final String message) {
+        final var facesContext = FacesContext.getCurrentInstance();
+        final var response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
+
+        try {
+            if (message != null) {
+                response.sendError(status, message);
+            } else {
+                response.sendError(status);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        facesContext.responseComplete(); // Stops further processing
+    }
+
+    public static void respondWithError(int status) {
+        respondWithError(status, null);
     }
 }

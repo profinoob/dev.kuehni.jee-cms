@@ -29,7 +29,9 @@
                     </span><br/>
 
                     <p:link outcome="pretty:home">Home Page</p:link><br/>
-                    <p:link outcome="pretty:adminPageList">Edit Pages</p:link><br/>
+                    <ui:fragment rendered="#{permissionService.allowedToEditPage}">
+                        <p:link outcome="pretty:adminPageList">Edit Pages</p:link><br/>
+                    </ui:fragment>
                     <br/>
 
                     <p:linkButton outcome="pretty:logout" icon="pi pi-sign-out">Logout</p:linkButton>

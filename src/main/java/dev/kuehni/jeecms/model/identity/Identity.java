@@ -2,10 +2,9 @@ package dev.kuehni.jeecms.model.identity;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Objects;
 
 @Entity
 public class Identity {
@@ -21,6 +20,11 @@ public class Identity {
     @Nonnull
     @Column(nullable = false)
     private String passwordHash = "";
+
+    @Nonnull
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private IdentityRole role = IdentityRole.USER;
 
 
     public long getId() {
@@ -45,6 +49,18 @@ public class Identity {
         this.passwordHash = passwordHash;
     }
 
+    @Nonnull
+    public IdentityRole getRole() {
+        return role;
+    }
+
+    public void setRole(@Nonnull IdentityRole role) {
+        this.role = Objects.requireNonNull(role, "role");
+    }
+
+    public boolean is(@Nonnull IdentityRole role) {
+        return this.role.equals(role);
+    }
 
     public boolean equals(@Nullable Object o) {
         if (this == o) return true;

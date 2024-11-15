@@ -5,16 +5,15 @@ import dev.kuehni.jeecms.model.comment.CommentRepository;
 import dev.kuehni.jeecms.model.page.Page;
 import dev.kuehni.jeecms.model.page.PageRepository;
 import dev.kuehni.jeecms.service.PageService;
+import dev.kuehni.jeecms.util.faces.FacesUtils;
 import dev.kuehni.jeecms.util.page.PagePath;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.enterprise.context.RequestScoped;
-import jakarta.faces.context.FacesContext;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletResponse;
 
-import java.io.IOException;
 import java.util.List;
 
 @Named
@@ -35,17 +34,10 @@ public class PageViewModel {
     private PageService pageService;
 
     public void load() {
-        pageService.getAtPath(path).ifPresentOrElse(page -> this.page = page, () -> {
-            final var facesContext = FacesContext.getCurrentInstance();
-            final var response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
-
-            try {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "Page not found: " + path);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            facesContext.responseComplete(); // Stops further processing
-        });
+        pageService.getAtPath(path).ifPresentOrElse(
+                page -> this.page = page,
+                () -> FacesUtils.respondWithError(HttpServletResponse.SC_NOT_FOUND, "Page not found: " + path)
+        );
 
         if (page != null) {
             this.comments = commentRepository.findByPage(page);
