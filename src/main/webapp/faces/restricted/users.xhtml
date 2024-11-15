@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+      lang="en">
+
+<ui:composition template="/faces/template.xhtml">
+    <ui:define name="title">Users</ui:define>
+    <ui:define name="header">Users</ui:define>
+    <ui:define name="content">
+        <h:form>
+            <p:growl id="growl"><p:autoUpdate/></p:growl>
+
+            <em>Click the cells to edit them</em><br/>
+            <br/>
+
+            <p:dataTable value="#{userListViewModel.identities}" var="user" editable="true" editMode="cell">
+                <p:ajax event="cellEdit" listener="#{userListViewModel.saveAll}"/>
+
+                <p:column headerText="Username">
+                    <h:outputText value="#{user.username}"/>
+                    <ui:fragment rendered="#{user.self}">
+                        (you)
+                    </ui:fragment>
+                </p:column>
+                <p:column headerText="Role">
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{user.role.displayName}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:selectOneMenu value="#{user.role}" style="width:100%" disabled="#{user.self}">
+                                <f:selectItems value="#{userListViewModel.roleList}" var="role"
+                                               itemLabel="#{role.displayName}" itemValue="#{role}"/>
+                            </p:selectOneMenu>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
+</html>

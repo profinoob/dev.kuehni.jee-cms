@@ -22,6 +22,8 @@
 
     <ui:define name="content">
         <h:form>
+            <p:growl id="growl"><p:autoUpdate/></p:growl>
+
             <p:outputLabel for="title" value="Title:"/>
             <br/>
             <p:inputText id="title" value="#{editPageViewModel.title}" required="true" label="Title"/>
@@ -69,10 +71,6 @@
             </ui:fragment>
             <br/>
             <br/>
-
-            <p:messages>
-                <p:autoUpdate/>
-            </p:messages>
         </h:form>
     </ui:define>
 </ui:composition>

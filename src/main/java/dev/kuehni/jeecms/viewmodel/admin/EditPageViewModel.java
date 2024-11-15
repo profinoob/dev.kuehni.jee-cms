@@ -168,7 +168,7 @@ public class EditPageViewModel {
         pageRepository.insert(page);
         id = page.getId();
         FacesContext.getCurrentInstance()
-                .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Page create", null));
+                .addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Page create", null));
         prettyFacesRedirector.redirect("pretty:viewPage", id);
     }
 
@@ -176,7 +176,7 @@ public class EditPageViewModel {
     public void update() {
         pageRepository.update(page);
         FacesContext.getCurrentInstance()
-                .addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Page saved", null));
+                .addMessage("growl", new FacesMessage(FacesMessage.SEVERITY_INFO, "Page saved", null));
     }
 
     /// Delete this page and navigate to the page list.

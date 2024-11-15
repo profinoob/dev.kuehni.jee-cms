@@ -33,6 +33,11 @@
         <view-id value="/faces/restricted/pages.xhtml"/>
     </url-mapping>
 
+    <url-mapping id="adminUserList">
+        <pattern value="/admin/users"/>
+        <view-id value="/faces/restricted/users.xhtml"/>
+    </url-mapping>
+
     <url-mapping id="createPage">
         <pattern value="/admin/pages/#{parentId: editPageViewModel.parentId}/create"/>
         <view-id value="/faces/restricted/edit-page.xhtml"/>

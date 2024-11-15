@@ -1,5 +1,6 @@
 package dev.kuehni.jeecms.service.auth;
 
+import dev.kuehni.jeecms.model.identity.IdentityRole;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -21,5 +22,10 @@ public class PermissionService {
             case ADMINISTRATOR, AUTHOR -> true;
             default -> false;
         };
+    }
+
+    public boolean isAllowedToManageUsers() {
+        final var identity = authBean.getLoggedInIdentity();
+        return identity != null && identity.is(IdentityRole.ADMINISTRATOR);
     }
 }
