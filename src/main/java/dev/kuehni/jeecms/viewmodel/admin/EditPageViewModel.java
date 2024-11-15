@@ -94,6 +94,22 @@ public class EditPageViewModel {
 
 
     @Nonnull
+    public String getParentPath() {
+        final var parts = new ArrayList<String>();
+        var current = page.getParent();
+        if (current == null || current.getParent() == null) {
+            return "";
+        }
+        while (true) {
+            final var parent = current.getParent();
+            if (parent == null) break;
+            parts.add(current.getSlug());
+            current = parent;
+        }
+        return "/" + String.join("/", parts.reversed());
+    }
+
+    @Nonnull
     public String getPath() {
         final var parts = new ArrayList<String>();
         var current = page;

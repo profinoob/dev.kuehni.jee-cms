@@ -31,22 +31,26 @@
             <br/>
             <br/>
 
-            <p:outputLabel for="slug" value="URL Slug:"/>
+            <p:outputLabel for="slug" value="URL:"/>
             <br/>
-            <p:inputText id="slug" value="#{editPageViewModel.slug}" required="#{editPageViewModel.parentId != null}"
-                         disabled="#{editPageViewModel.parentId == null}" label="URL Slug"
-                         validator="#{editPageViewModel.validateSlug}"/>
-            <p:commandButton icon="pi pi-sync" styleClass="ui-button-flat"
-                             actionListener="#{editPageViewModel.generateSlug}" process="title @this"
-                             update="title slug" rendered="#{editPageViewModel.parentId != null}"/>
-            <p:message for="slug"/>
+            <p:inputText value="#{editPageViewModel.parentPath}/" disabled="true"
+                         style="width: #{editPageViewModel.parentPath.length() + 3}ch;"/>
+            <ui:fragment rendered="#{editPageViewModel.parentId != null}">
+                <p:inputText id="slug" value="#{editPageViewModel.slug}"
+                             required="#{editPageViewModel.parentId != null}" label="URL Slug"
+                             validator="#{editPageViewModel.validateSlug}"/>
+                <p:commandButton icon="pi pi-sync" styleClass="ui-button-flat"
+                                 actionListener="#{editPageViewModel.generateSlug}" process="title @this"
+                                 update="title slug"/>
+                <p:message for="slug"/>
+            </ui:fragment>
             <br/>
             <br/>
 
             <p:outputLabel for="content" value="Content:"/>
             <em>(<p:link href="https://github.github.com/gfm/" target="_blank">Markdown</p:link> is enabled)</em>
             <br/>
-            <p:inputTextarea id="content" value="#{editPageViewModel.content}" required="true" label="Content"/>
+            <p:inputTextarea id="content" value="#{editPageViewModel.content}" required="true" label="Content" style="width: 100%"/>
             <p:message for="content"/>
             <br/>
             <br/>
