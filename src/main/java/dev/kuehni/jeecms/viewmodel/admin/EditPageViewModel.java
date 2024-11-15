@@ -122,6 +122,11 @@ public class EditPageViewModel {
         return "/" + String.join("/", parts.reversed());
     }
 
+    @Nonnull
+    public Page getPage() {
+        return page;
+    }
+
 
     /// Load a page from {@link PageRepository} by the id set by {@link #setId(Long)}.
     public void load() {
