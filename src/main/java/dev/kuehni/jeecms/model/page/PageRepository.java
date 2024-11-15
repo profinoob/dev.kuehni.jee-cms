@@ -3,7 +3,6 @@ package dev.kuehni.jeecms.model.page;
 import dev.kuehni.jeecms.util.data.CrudRepository;
 import jakarta.annotation.Nonnull;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
@@ -22,15 +21,15 @@ public class PageRepository extends CrudRepository<Page, Long> {
     }
 
     @Transactional
-    public void createRootPageIfNotExists() {
-        try {
-            queryRootPage().getSingleResult();
-        } catch (NoResultException ex) {
-            final Page rootPage = new Page();
-            rootPage.setTitle("Homepage");
-            rootPage.setSlug("-");
-            insert(rootPage);
+    public void createRootPage() {
+        if (!queryRootPage().setMaxResults(1).getResultList().isEmpty()) {
+            throw new IllegalStateException("Root page already exists");
         }
+
+        final Page rootPage = new Page();
+        rootPage.setTitle("Homepage");
+        rootPage.setSlug("-");
+        insert(rootPage);
     }
 
     @Nonnull

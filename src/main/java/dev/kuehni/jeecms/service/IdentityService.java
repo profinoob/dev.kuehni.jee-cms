@@ -1,8 +1,8 @@
 package dev.kuehni.jeecms.service;
 
-import dev.kuehni.jeecms.service.crypto.PasswordService;
 import dev.kuehni.jeecms.model.identity.Identity;
 import dev.kuehni.jeecms.model.identity.IdentityRepository;
+import dev.kuehni.jeecms.service.crypto.PasswordService;
 import jakarta.annotation.Nonnull;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -23,5 +23,12 @@ public class IdentityService {
         identity.setUsername(username);
         identity.setPasswordHash(passwordService.hashPassword(password));
         identityRepository.insert(identity);
+    }
+
+    public void createAdmin() {
+        if (isUsernameTaken("admin")) {
+            throw new IllegalStateException("admin already exists");
+        }
+        register("admin", "admin");
     }
 }

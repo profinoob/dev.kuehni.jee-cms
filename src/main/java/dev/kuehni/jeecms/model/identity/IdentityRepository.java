@@ -5,6 +5,7 @@ import jakarta.annotation.Nonnull;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 
 import java.util.Objects;
 import java.util.Optional;
