@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      lang="en">
+
+<p:panel id="commentsection">
+    <h3>
+        Comments
+        (<h:outputText value="#{pageViewModel.commentCount}"/>)
+    </h3>
+
+    <ui:fragment rendered="#{!authBean.loggedIn}">
+        Please
+        <p:link outcome="pretty:login">
+            <f:param name="redirect"
+                     value="#{facesContext.externalContext.requestContextPath}/page/#{pageViewModel.pathWithoutLeadingSlash}"/>
+            log in</p:link>
+        to comment.
+    </ui:fragment>
+    <ui:fragment rendered="#{authBean.loggedIn}">
+        <h:form>
+            <p:outputLabel for="comment" value="Your Comment:"/>
+            <br/>
+            <p:inputText id="comment" value="#{commentViewModel.content}" required="true" label="Your Comment"/>
+            <p:commandButton value="Submit" update=":commentsection" actionListener="#{commentViewModel.submit}"
+                             icon="pi pi-send" styleClass="ui-button-flat"/>
+            <br/>
+            <p:message for="comment"/>
+        </h:form>
+    </ui:fragment>
+
+    <ui:fragment rendered="#{pageViewModel.commentCount == 0}">
+        <p><em>No Comments</em></p>
+    </ui:fragment>
+    <ui:repeat value="#{pageViewModel.comments}" var="comment">
+        <p>
+            <strong><h:outputText value="#{comment.creator.username}"/></strong>
+            <ui:fragment rendered="#{comment.creator.equals(authBean.loggedInIdentity)}">
+                (you)
+            </ui:fragment>
+            commented <h:outputText value="#{relativeDateTimeService.format(comment.createdAt)}"/>:
+            <br/>
+            <h:outputText value="#{comment.content}"/>
+        </p>
+    </ui:repeat>
+</p:panel>
+</html>

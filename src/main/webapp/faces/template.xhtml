@@ -20,12 +20,12 @@
         <header>
             <ui:insert name="headerIcon"/>
             <h1><ui:insert name="header"><span style="font-family: monospace;">{Your header}</span></ui:insert></h1>
-            <ui:fragment rendered="#{authBean.authState.loggedIn}">
+            <ui:fragment rendered="#{authBean.loggedIn}">
                 <p:button onclick="return false//" id="header-account-button" styleClass="ui-button-flat"
                           icon="pi pi-user"/>
                 <p:overlayPanel for="header-account-button" style="min-width: 240px;">
                     <span style="font-size: 1.2em; font-weight: bold">
-                        <h:outputText value="#{authBean.authState.loggedInUsername}"/>
+                        <h:outputText value="#{authBean.loggedInUsername}"/>
                     </span><br/>
 
                     <p:link outcome="pretty:home">Home Page</p:link><br/>
@@ -35,7 +35,7 @@
                     <p:linkButton outcome="pretty:logout" icon="pi pi-sign-out">Logout</p:linkButton>
                 </p:overlayPanel>
             </ui:fragment>
-            <ui:fragment rendered="#{!authBean.authState.loggedIn}">
+            <ui:fragment rendered="#{!authBean.loggedIn}">
                 <p:linkButton outcome="pretty:login" styleClass="ui-button-flat" icon="pi pi-sign-in"/>
             </ui:fragment>
         </header>

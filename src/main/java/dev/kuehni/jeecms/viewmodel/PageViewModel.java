@@ -1,5 +1,7 @@
 package dev.kuehni.jeecms.viewmodel;
 
+import dev.kuehni.jeecms.model.comment.Comment;
+import dev.kuehni.jeecms.model.comment.CommentRepository;
 import dev.kuehni.jeecms.model.page.Page;
 import dev.kuehni.jeecms.model.page.PageRepository;
 import dev.kuehni.jeecms.service.PageService;
@@ -22,9 +24,13 @@ public class PageViewModel {
 
     private Page page;
 
+    private List<Comment> comments;
+
 
     @Inject
     private PageRepository pageRepository;
+    @Inject
+    private CommentRepository commentRepository;
     @Inject
     private PageService pageService;
 
@@ -40,15 +46,30 @@ public class PageViewModel {
             }
             facesContext.responseComplete(); // Stops further processing
         });
+
+        if (page != null) {
+            this.comments = commentRepository.findByPage(page);
+        }
     }
 
     public void loadRoot() {
         page = pageService.getRoot();
         path = PagePath.ROOT;
+
+        this.comments = commentRepository.findByPage(page);
     }
 
     public void setPathWithoutLeadingSlash(@Nonnull String path) {
         this.path = PagePath.parseWithoutLeadingSlash(path);
+    }
+
+    @Nonnull
+    public String getPathWithoutLeadingSlash() {
+        return this.path.toString().substring(1);
+    }
+
+    public void addComment(@Nonnull Comment comment) {
+        comments.addFirst(comment);
     }
 
     @Nonnull
@@ -62,6 +83,10 @@ public class PageViewModel {
     }
 
 
+    public Page getPage() {
+        return page;
+    }
+
     @Nullable
     public Page getParent() {
         return page.getParent();
@@ -74,5 +99,13 @@ public class PageViewModel {
     @Nonnull
     public List<Page> getChildren() {
         return pageRepository.findChildren(page);
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public int getCommentCount() {
+        return comments.size();
     }
 }
