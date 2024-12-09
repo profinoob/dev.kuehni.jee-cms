@@ -1,5 +1,6 @@
 package dev.kuehni.jeecms.viewmodel.admin;
 
+import dev.kuehni.jeecms.exception.result.ForbiddenException;
 import dev.kuehni.jeecms.model.page.Page;
 import dev.kuehni.jeecms.service.PageService;
 import dev.kuehni.jeecms.service.auth.AuthBean;
@@ -37,7 +38,7 @@ public class PageTreeViewModel implements Serializable {
     @PostConstruct
     public void init() {
         if (!permissionService.isAllowedToEditPage()) {
-            FacesUtils.respondWithError(HttpServletResponse.SC_FORBIDDEN);
+            throw new ForbiddenException();
         }
 
         tree = new DefaultTreeNode<>(new Page());

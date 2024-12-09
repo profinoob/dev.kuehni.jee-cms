@@ -1,5 +1,6 @@
 package dev.kuehni.jeecms.viewmodel.admin;
 
+import dev.kuehni.jeecms.exception.result.ForbiddenException;
 import dev.kuehni.jeecms.model.identity.Identity;
 import dev.kuehni.jeecms.model.identity.IdentityRepository;
 import dev.kuehni.jeecms.model.identity.IdentityRole;
@@ -14,7 +15,6 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletResponse;
-import org.primefaces.event.CellEditEvent;
 
 import java.io.Serializable;
 import java.util.List;
@@ -39,7 +39,7 @@ public class UserListViewModel implements Serializable {
     @PostConstruct
     public void init() {
         if (!permissionService.isAllowedToManageUsers()) {
-            FacesUtils.respondWithError(HttpServletResponse.SC_FORBIDDEN);
+            throw new ForbiddenException();
         }
         final var loggedInIdentity = authBean.getLoggedInIdentity();
         identities = identityRepository.findAll()
@@ -50,8 +50,7 @@ public class UserListViewModel implements Serializable {
 
     public void saveAll() {
         if (!permissionService.isAllowedToManageUsers()) {
-            FacesUtils.respondWithError(HttpServletResponse.SC_FORBIDDEN);
-            return;
+            throw new ForbiddenException();
         }
 
         identities.stream()

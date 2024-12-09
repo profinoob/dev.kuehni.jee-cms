@@ -1,18 +1,17 @@
 package dev.kuehni.jeecms.viewmodel;
 
+import dev.kuehni.jeecms.exception.result.NotFoundException;
 import dev.kuehni.jeecms.model.comment.Comment;
 import dev.kuehni.jeecms.model.comment.CommentRepository;
 import dev.kuehni.jeecms.model.page.Page;
 import dev.kuehni.jeecms.model.page.PageRepository;
 import dev.kuehni.jeecms.service.PageService;
-import dev.kuehni.jeecms.util.faces.FacesUtils;
 import dev.kuehni.jeecms.util.page.PagePath;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.List;
 
@@ -34,10 +33,7 @@ public class PageViewModel {
     private PageService pageService;
 
     public void load() {
-        pageService.getAtPath(path).ifPresentOrElse(
-                page -> this.page = page,
-                () -> FacesUtils.respondWithError(HttpServletResponse.SC_NOT_FOUND, "Page not found: " + path)
-        );
+        this.page = pageService.getAtPath(path).orElseThrow(() -> new NotFoundException("Page: " + path.toString()));
 
         if (page != null) {
             this.comments = commentRepository.findByPage(page);

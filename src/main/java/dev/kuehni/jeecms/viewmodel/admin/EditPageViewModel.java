@@ -1,10 +1,12 @@
 package dev.kuehni.jeecms.viewmodel.admin;
 
+import dev.kuehni.jeecms.config.security.Secured;
+import dev.kuehni.jeecms.exception.result.NotFoundException;
+import dev.kuehni.jeecms.model.identity.IdentityRole;
 import dev.kuehni.jeecms.model.page.Page;
 import dev.kuehni.jeecms.model.page.PageRepository;
 import dev.kuehni.jeecms.service.PageService;
 import dev.kuehni.jeecms.service.auth.PermissionService;
-import dev.kuehni.jeecms.util.faces.FacesUtils;
 import dev.kuehni.jeecms.util.redirect.PrettyFacesRedirector;
 import dev.kuehni.jeecms.util.text.StringUtils;
 import jakarta.annotation.Nonnull;
@@ -16,7 +18,6 @@ import jakarta.faces.context.FacesContext;
 import jakarta.faces.validator.ValidatorException;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
-import jakarta.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -24,6 +25,7 @@ import java.util.regex.Pattern;
 
 @Named
 @RequestScoped
+@Secured(requiresAnyOf = {IdentityRole.ADMINISTRATOR, IdentityRole.AUTHOR})
 public class EditPageViewModel {
     @Nullable
     private Long id;
@@ -130,10 +132,6 @@ public class EditPageViewModel {
 
     /// Load a page from {@link PageRepository} by the id set by {@link #setId(Long)}.
     public void load() {
-        if (!permissionService.isAllowedToEditPage()) {
-            FacesUtils.respondWithError(HttpServletResponse.SC_FORBIDDEN);
-        }
-
         if (id != null) {
             loadExisting(id);
         } else {
@@ -149,16 +147,10 @@ public class EditPageViewModel {
     }
 
     private void loadExisting(long id) {
-        pageRepository.findById(id).ifPresentOrElse(
-                foundPage -> {
-                    page = foundPage;
-                    parentId = Optional.ofNullable(foundPage.getParent()).map(Page::getId).orElse(null);
-                },
-                () -> FacesUtils.respondWithError(
-                        HttpServletResponse.SC_NOT_FOUND,
-                        "Page with id " + id + " not found"
-                )
-        );
+        final var foundPage =
+                pageRepository.findById(id).orElseThrow(() -> new NotFoundException("Page with id " + id));
+        page = foundPage;
+        parentId = Optional.ofNullable(foundPage.getParent()).map(Page::getId).orElse(null);
     }
 
     public void generateSlug() {
