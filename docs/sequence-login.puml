@@ -1,0 +1,63 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+skinparam BoxPadding 10
+skinparam SequenceBoxBackgroundColor AliceBlue
+
+autonumber
+
+actor User
+
+box Präsentation
+    participant login.xhtml
+end box
+
+box Business-Logik
+    participant LoginViewModel
+    participant AuthService
+    participant PasswordService
+    participant AuthBean
+end box
+
+box Datenzugriff
+    participant IdentityRepository
+end box
+
+box Jakarta
+    participant FacesContext
+end box
+
+User -> login.xhtml ++ : Klick [Log in]
+
+login.xhtml -> LoginViewModel ++ : login()
+
+LoginViewModel -> AuthService ++ : authenticate()
+
+AuthService -> IdentityRepository ++ : findByUsername()
+AuthService <-- IdentityRepository -- : [Identity|null]
+
+opt != null
+    AuthService -> PasswordService ++ : verifyPassword()
+    AuthService <-- PasswordService -- : [true|false]
+
+    opt true
+        AuthService -> AuthBean ++ : startSession()
+
+        AuthService <-- AuthBean --
+    end
+end
+
+LoginViewModel <-- AuthService -- : AuthResult
+
+alt FAILURE
+    login.xhtml <-- LoginViewModel : FacesMessage
+
+    User <-- login.xhtml --
+else SUCCESS
+    LoginViewModel -> FacesContext --++ : redirect()
+
+    FacesContext --> User -- : HTTP 302 Redirect
+end
+
+
+@enduml
