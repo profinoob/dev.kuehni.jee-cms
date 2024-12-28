@@ -17,7 +17,7 @@ public class PagePath {
     @Nonnull
     private final List<String> segments;
 
-    private PagePath(@Nonnull final List<String> segments) {
+    PagePath(@Nonnull final List<String> segments) {
         this.segments = segments;
     }
 
