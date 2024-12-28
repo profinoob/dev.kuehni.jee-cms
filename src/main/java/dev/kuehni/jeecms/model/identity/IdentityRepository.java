@@ -5,7 +5,6 @@ import jakarta.annotation.Nonnull;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
-import jakarta.transaction.Transactional;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -24,7 +23,7 @@ public class IdentityRepository extends CrudRepository<Identity, Long> {
                 .setParameter("username", Objects.requireNonNull(username, "username"));
     }
 
-
+    /// Returns the account with the given `username`, if one exists. Otherwise, returns an empty optional.
     @Nonnull
     public Optional<Identity> findByUsername(@Nonnull final String username) {
         try {
@@ -35,6 +34,7 @@ public class IdentityRepository extends CrudRepository<Identity, Long> {
         }
     }
 
+    /// Returns `true` if there is an account with the given `username`. Returns `false` otherwise
     public boolean existsByUsername(@Nonnull final String username) {
         return !queryByUsername(username)
                 .setMaxResults(1)

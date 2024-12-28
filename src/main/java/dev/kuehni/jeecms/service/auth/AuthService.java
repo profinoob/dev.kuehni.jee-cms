@@ -15,6 +15,7 @@ public class AuthService {
     @Inject
     private PasswordService passwordService;
 
+    /// Try to log in the account with the given `username` and `password`.
     public AuthResult authenticate(@Nonnull String username, @Nonnull String password) {
         final var optionalIdentity = identityRepository.findByUsername(username);
         return optionalIdentity.map(identity -> {
@@ -26,8 +27,11 @@ public class AuthService {
         }).orElse(AuthResult.FAILURE);
     }
 
+    /// The result of an authentication attempt.
     public enum AuthResult {
+        /// Authentication failed (wrong username / password).
         FAILURE,
+        /// Authentication was successful. The session now counts as logged-in.
         SUCCESS,
     }
 }

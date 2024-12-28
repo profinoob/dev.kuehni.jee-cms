@@ -14,7 +14,6 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpServletResponse;
-import org.primefaces.event.CellEditEvent;
 
 import java.io.Serializable;
 import java.util.List;
@@ -36,6 +35,10 @@ public class UserListViewModel implements Serializable {
     private List<EditableIdentity> identities;
 
 
+    /// Initialize the view model
+    ///
+    /// - Ensure the current user is allowed to manage users
+    /// - Load the user list
     @PostConstruct
     public void init() {
         if (!permissionService.isAllowedToManageUsers()) {
@@ -48,6 +51,7 @@ public class UserListViewModel implements Serializable {
                 .toList();
     }
 
+    /// Save all changes done to the user list to the database.
     public void saveAll() {
         if (!permissionService.isAllowedToManageUsers()) {
             FacesUtils.respondWithError(HttpServletResponse.SC_FORBIDDEN);
@@ -75,6 +79,7 @@ public class UserListViewModel implements Serializable {
         return List.of(IdentityRole.values());
     }
 
+    /// A view model that represents a single user entry in the list.
     public static class EditableIdentity {
         @Nonnull
         private final Identity identity;

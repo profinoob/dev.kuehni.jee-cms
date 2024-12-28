@@ -34,6 +34,10 @@ public class PageTreeViewModel implements Serializable {
     @Inject
     private AuthBean authBean;
 
+    /// Initialize the view model
+    ///
+    /// - Ensure the current user is allowed to edit pages
+    /// - Load the page tree
     @PostConstruct
     public void init() {
         if (!permissionService.isAllowedToEditPage()) {

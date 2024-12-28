@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+/// A comment on a [Page].
 @Entity
 @Table
 public class Comment {
@@ -31,6 +32,12 @@ public class Comment {
 
     public Comment() {}
 
+    /// Create a new comment
+    ///
+    /// @param page      The page the new comment is attached to
+    /// @param creator   The user that wrote this comment
+    /// @param content   The content of the comment
+    /// @param createdAt When the comment was created
     public Comment(
             @Nonnull Page page,
             @Nonnull Identity creator,

@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
+/// This filter is attached to restricted (protected) routes and has the responsibility to redirect not logged-in users
+/// to the login form.
 public class AuthFilter implements Filter {
     @Inject
     private AuthBean authBean;

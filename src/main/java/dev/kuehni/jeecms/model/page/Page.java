@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 import java.util.Objects;
 
+/// A content page.
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(name = "uc_page_slug_per_parent", columnNames = {"parent_id", "slug"}))
 public class Page {
@@ -60,7 +61,7 @@ public class Page {
         this.content = Objects.requireNonNull(content, "content");
     }
 
-    /** {@code null} means that {@code this} is the index page */
+    /// {@code null} means that {@code this} is the index page (root node of the hierarchy)
     @Nullable
     public Page getParent() {
         return parent;

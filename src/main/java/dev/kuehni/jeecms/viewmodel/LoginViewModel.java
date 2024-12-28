@@ -46,6 +46,7 @@ public class LoginViewModel {
     }
 
 
+    /// Try to authenticate with the entered username and password.
     public void login() {
         final var facesContext = FacesContext.getCurrentInstance();
 

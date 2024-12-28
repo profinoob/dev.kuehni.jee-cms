@@ -31,10 +31,15 @@ public class RelativeDateTimeService {
         this.clock = Objects.requireNonNull(clock, "clock");
     }
 
+    /// Generate a relative time string, like "3 minutes ago" for the given `instant`.\
+    /// This rounds approximately to the nearest number of seconds, minutes, hours, days, months, or years.
+    ///
+    /// @param instant Must lie in the past.
+    /// @throws IllegalArgumentException if `instant` is not in the past.
     public String format(@Nonnull LocalDateTime instant) {
         final var now = LocalDateTime.now(clock);
         if (now.isBefore(instant))
-            throw new IllegalArgumentException(instant + " is before now " + now);
+            throw new IllegalArgumentException(now + " (now) is before instant " + instant);
 
         final var secondsAgo = instant.until(now, ChronoUnit.SECONDS);
         if (secondsAgo <= MAX_SECONDS_NOW) {

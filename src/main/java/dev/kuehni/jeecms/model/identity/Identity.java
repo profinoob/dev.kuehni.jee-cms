@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 
 import java.util.Objects;
 
+/// A user account.
 @Entity
 public class Identity {
 

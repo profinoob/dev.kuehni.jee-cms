@@ -12,16 +12,14 @@ import java.util.Objects;
 public class FacesUtils {
     private FacesUtils() {}
 
-    /**
-     * Searches through a tree of {@link UIComponent}s for any component that has an {@link UIComponent#getId() id} equal to
-     * {@code id} starting with the root {@code parent}.
-     * <p>
-     * If the {@code parent}'s {@link UIComponent#getId() id} matches {@code id}, the {@code parent} is returned.<br>
-     * Otherwise, the {@code parent}'s {@link UIComponent#getChildren() children} are checked recursively.
-     * <p>
-     * If no {@link UIComponent} in the tree has an {@link UIComponent#getId() id} equal to {@code id}, {@code null}
-     * is returned.
-     */
+    /// Searches through a tree of [UIComponent]s for any component that has an {@link UIComponent#getId() id} equal to
+    /// `id` starting with the root `parent`.
+    ///
+    /// If the `parent`'s {@link UIComponent#getId() id} matches `id`, the `parent` is returned.\
+    /// Otherwise, the `parent`'s {@link UIComponent#getChildren() children} are checked recursively.
+    ///
+    /// If no [UIComponent] in the tree has an {@link UIComponent#getId() id} equal to `id`, `null`
+    /// is returned.
     @Nullable
     public static UIComponent findComponentById(@Nonnull final UIComponent parent, @Nonnull final String id) {
         Objects.requireNonNull(parent, "parent");
@@ -39,6 +37,7 @@ public class FacesUtils {
                 .orElse(null);
     }
 
+    /// Mark the current request as complete with the given HTTP `status` and `message`.
     public static void respondWithError(int status, @Nullable final String message) {
         final var facesContext = FacesContext.getCurrentInstance();
         final var response = (HttpServletResponse) facesContext.getExternalContext().getResponse();
@@ -55,6 +54,7 @@ public class FacesUtils {
         facesContext.responseComplete(); // Stops further processing
     }
 
+    /// Mark the current request as complete with the given HTTP `status`.
     public static void respondWithError(int status) {
         respondWithError(status, null);
     }

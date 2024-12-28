@@ -14,6 +14,7 @@ public class CommentRepository extends CrudRepository<Comment, Long> {
         super(Comment.class);
     }
 
+    /// Get a list of all comments of the given `page` in chronological order of creation (latest first)
     @Nonnull
     public List<Comment> findByPage(@Nonnull Page page) {
         Objects.requireNonNull(page, "page");

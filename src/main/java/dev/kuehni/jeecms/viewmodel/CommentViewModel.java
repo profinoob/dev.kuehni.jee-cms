@@ -41,6 +41,7 @@ public class CommentViewModel {
         this.clock = Objects.requireNonNull(clock, "clock");
     }
 
+    /// Post the entered comment to the page.
     public void submit() {
         final Identity loggedInIdentity = authBean.getLoggedInIdentity();
         Objects.requireNonNull(loggedInIdentity, "loggedInIdentity");

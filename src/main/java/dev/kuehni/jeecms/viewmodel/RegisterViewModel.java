@@ -65,6 +65,7 @@ public class RegisterViewModel {
         this.repeatPassword = repeatPassword;
     }
 
+    /// Try to create a new account with the entered data.
     public void register() {
         final String password = getNewPassword();
         identityService.register(getUsername(), password);
@@ -82,6 +83,9 @@ public class RegisterViewModel {
         }
     }
 
+    /// Ensure that the entered username isn't taken.
+    ///
+    /// @throws ValidatorException if the username is already taken.
     public void validateUsername(FacesContext context, UIComponent toValidate, String username) {
         if (identityService.isUsernameTaken(username)) {
             final var message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Username is already taken.", null);
@@ -89,6 +93,9 @@ public class RegisterViewModel {
         }
     }
 
+    /// Ensure that the repeat password is equal to the first password.
+    ///
+    /// @throws ValidatorException if the passwords don't match.
     public void validateRepeatPassword(FacesContext context, UIComponent toValidate, String repeatPassword) {
         final var compareToId = (String) toValidate.getAttributes().get("compareTo");
         final var compareToInput = (UIInput) FacesUtils.findComponentById(context.getViewRoot(), compareToId);

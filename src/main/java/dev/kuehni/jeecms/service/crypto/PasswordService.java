@@ -13,6 +13,7 @@ public class PasswordService {
     @Inject
     private Pbkdf2PasswordHash hasher;
 
+    /// Set up the password hasher.
     @PostConstruct
     public void init() {
         final var params = new HashMap<String, String>();
@@ -22,11 +23,14 @@ public class PasswordService {
         hasher.initialize(params);
     }
 
+    /// Generate a hash for the given `password` (plain text).
     @Nonnull
     public String hashPassword(@Nonnull String password) {
         return hasher.generate(password.toCharArray());
     }
 
+    /// Check whether the given plain text `password` matches the `hash`, meaning the same password was used to
+    /// generate that hash.
     public boolean verifyPassword(@Nonnull String password, @Nonnull String hash) {
         return hasher.verify(password.toCharArray(), hash);
     }

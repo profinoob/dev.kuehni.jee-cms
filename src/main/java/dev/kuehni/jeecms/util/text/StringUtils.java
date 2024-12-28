@@ -7,6 +7,7 @@ import java.util.Objects;
 public class StringUtils {
     private StringUtils() {}
 
+    /// Remove some common accents from text. Example:`ö` &rarr; `o`.
     @Nonnull
     public static String stripAccents(@Nonnull String text) {
         return Objects.requireNonNull(text, "text")

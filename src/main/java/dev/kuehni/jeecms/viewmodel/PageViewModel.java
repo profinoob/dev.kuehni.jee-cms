@@ -33,6 +33,7 @@ public class PageViewModel {
     @Inject
     private PageService pageService;
 
+    /// Try to load the page with the set path or return a 404.
     public void load() {
         pageService.getAtPath(path).ifPresentOrElse(
                 page -> this.page = page,
@@ -44,6 +45,7 @@ public class PageViewModel {
         }
     }
 
+    /// Load the root page.
     public void loadRoot() {
         page = pageService.getRoot();
         path = PagePath.ROOT;

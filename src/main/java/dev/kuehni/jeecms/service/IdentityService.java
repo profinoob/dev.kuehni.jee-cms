@@ -15,10 +15,12 @@ public class IdentityService {
     @Inject
     private PasswordService passwordService;
 
+    /// Whether there is a user with the given name.
     public boolean isUsernameTaken(@Nonnull final String username) {
         return identityRepository.existsByUsername(username);
     }
 
+    /// Create and persist a new user with the given `username` and `password`.
     @Nonnull
     public Identity register(@Nonnull final String username, @Nonnull final String password) {
         final var identity = new Identity();
@@ -28,6 +30,9 @@ public class IdentityService {
         return identity;
     }
 
+    /// Create the admin account if it doesn't exist.
+    ///
+    /// @throws IllegalStateException if an account with the username "admin" exists already.
     public void createAdmin() {
         if (isUsernameTaken("admin")) {
             throw new IllegalStateException("admin already exists");

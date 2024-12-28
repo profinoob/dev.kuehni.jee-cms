@@ -93,6 +93,7 @@ public class EditPageViewModel {
     }
 
 
+    /// Get the path of the parent of the page this view model represents.
     @Nonnull
     public String getParentPath() {
         final var parts = new ArrayList<String>();
@@ -109,6 +110,7 @@ public class EditPageViewModel {
         return "/" + String.join("/", parts.reversed());
     }
 
+    /// Get the path of this page.
     @Nonnull
     public String getPath() {
         final var parts = new ArrayList<String>();
@@ -161,6 +163,7 @@ public class EditPageViewModel {
         );
     }
 
+    /// Generate and set the URL slug by using the entered title and normalizing it to kebab-case.
     public void generateSlug() {
         final var title = getTitle();
         final var slug = StringUtils.stripAccents(title.toLowerCase())
@@ -172,6 +175,9 @@ public class EditPageViewModel {
     }
 
 
+    /// Validate whether the entered slug can be used in an url.
+    ///
+    /// @throws ValidatorException if the slug contains unsupported characters.
     public void validateSlug(FacesContext context, UIComponent toValidate, String slug) {
         if (Pattern.compile("[^a-z0-9\\-]").matcher(slug).find()) {
             final var message = new FacesMessage(

@@ -10,12 +10,12 @@ import java.io.IOException;
 
 @RequestScoped
 public class PrettyFacesRedirector {
-    /**
-     * Redirect using a mapping id. This uses {@link FacesContext#getCurrentInstance()} to get a context for redirecting.
-     *
-     * @param mappingId The mapping id as defined by pretty-config.xml. E.g. {@code "pretty:viewUser"}
-     * @param params    Additional path parameters. See {@link URLPatternParser#getMappedURL(Object...)}.
-     */
+
+    /// Redirect using a mapping id. This uses {@link FacesContext#getCurrentInstance()} to get a context for
+    /// redirecting.
+    ///
+    /// @param mappingId The mapping id as defined by pretty-config.xml. E.g. `"pretty:viewUser"`
+    /// @param params    Additional path parameters. See {@link URLPatternParser#getMappedURL(Object...)}.
     public void redirect(@Nonnull String mappingId, Object... params) {
         final var mapping = PrettyContext.getCurrentInstance().getConfig().getMappingById(mappingId);
         final var relativeUrl = mapping.getPatternParser().getMappedURL(params).toURL();

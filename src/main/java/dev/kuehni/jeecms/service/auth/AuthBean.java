@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.Optional;
 
+/// This bean actually represents the auth session of a client.
 @Named
 @SessionScoped
 public class AuthBean implements Serializable {
@@ -25,6 +26,8 @@ public class AuthBean implements Serializable {
     @Nullable
     private String redirectToAfterLogin;
 
+    /// Check, if the supposedly logged-in user still matches the stored username.
+    /// If that is not the case, the user is {@link AuthBean#logOut() logged out}.
     public void refresh() {
         if (authState instanceof LoggedIn loggedIn) {
             final var loggedInUsername = loggedIn.getLoggedInUsername();
@@ -38,16 +41,19 @@ public class AuthBean implements Serializable {
         }
     }
 
+    /// Transitions the session to the {@link LoggedIn logged-in} state for the given `identity`.
     public void logIn(@Nonnull final Identity identity) {
         authState = new LoggedIn(identity);
         this.redirectToAfterLogin = null;
     }
 
+    /// Transitions the session to the {@link AuthState#LOGGED_OUT logged-out} state.
     public void logOut() {
         authState = AuthState.LOGGED_OUT;
         this.redirectToAfterLogin = null;
     }
 
+    /// Store the given url to the session as a redirect for after logging in.
     public void setRedirectToAfterLogin(@Nullable final String redirectToAfterLogin) {
         this.redirectToAfterLogin = redirectToAfterLogin;
     }
@@ -76,23 +82,28 @@ public class AuthBean implements Serializable {
 
 
     private interface AuthState {
+        /// Represents a logged-out state.
         AuthState LOGGED_OUT = new AuthState() {};
 
+        /// Whether this represents a logged-in state.
         default boolean isLoggedIn() {
             return false;
         }
 
+        /// The logged-in identity's id or `null` if this session counts as logged-out.
         @Nullable
         default Long getLoggedInIdentityId() {
             return null;
         }
 
+        /// The logged-in identity's username or `null` if this session counts as logged-out.
         @Nullable
         default String getLoggedInUsername() {
             return null;
         }
     }
 
+    /// Represents a logged-in state.
     private static class LoggedIn implements AuthState {
         private final long identityId;
 
